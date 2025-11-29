@@ -1,0 +1,46 @@
+﻿@model coreAden.Models.ViewSiparis
+
+@{
+    ViewBag.Title = "Detay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Hata mesajları -->
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+<table class="table">
+    <tr><th>Sipariş ID</th><td>@Model.SiparisID</td></tr>
+    <tr><th>Müşteri</th><td>@Model.MusteriAdSoyad</td></tr>
+    <tr><th>Kategori</th><td>@Model.KategoriAdı</td></tr>
+    <tr><th>Tanım</th><td>@Model.SiparisTanimi</td></tr>
+    <tr><th>Birim</th><td>@Model.Birim</td></tr>
+    <tr><th>Fiyat</th><td>@Model.BirimFiyat ₺</td></tr>
+    <tr><th>Tutar</th><td>@Model.SiparisTutari ₺</td></tr>
+    <tr><th>TSipariş Tarihi</th><td>@Model.SiparisTarihi.ToShortDateString()</td></tr>
+    <tr><th>Sipariş Durumu</th><td>@(Model.SiparisTeklifDurumu ? "Sipariş Aşamasında" : "Teklif Aşamasında")</td></tr>
+    <tr><th>Güncelleme Yapan </th><td>@Model.UserAd</td></tr>
+    <tr><th>Güncelleme Tarihi</th><td>@Model.GuncellemeTarihi</td></tr>
+    <tr><th>Ödeme Tipi</th><td>@Model.OdemeAdı</td></tr>
+    <tr><th>Aktif Mi</th><td>@Model.SiparisAktifMi</td></tr>
+
+
+</table>
+<div class="container-fluid d-flex justify-content-center  ">
+    <a href="@Url.Action("TümSiparisListesi", "Siparis")" class="btn btn-secondary mx-1">Geri Dön</a>
+    <a href="@Url.Action("Guncelle", "Siparis", new { id = Model.SiparisID })" class="btn btn-primary mx-1">Güncelle</a>
+    <a href="@Url.Action("Index", "SiparisMalzemeleri", new { id = Model.SiparisID })" class="btn btn-primary mx-1">Malzeme İşlemleri</a>
+    <a href="@Url.Action("SiparisOnayla", "Siparis", new { id = Model.SiparisID })" class="btn btn-primary mx-1"> Siparişi Onayla</a>
+    <a href="@Url.Action("SiparisKapat", "Siparis", new { id = Model.SiparisID })" class="btn btn-primary mx-1"> Siparişi Kapat</a>
+    <a href="@Url.Action("TeklifSil", "Siparis", new { id = Model.SiparisID })" class="btn btn-danger mx-1"> Teklif Sil</a>
+</div>
+
+
+
+

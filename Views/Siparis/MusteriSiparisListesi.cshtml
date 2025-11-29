@@ -1,0 +1,52 @@
+﻿
+@model PagedList.IPagedList<coreAden.Models.Siparisler>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "MusteriSiparisListesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            
+            
+            <th>Sipariş Tanımı</th>
+            <th>Birim</th>
+            <th>Birim Fiyatı</th>
+            <th>Sipariş Tutarı</th>
+            <th>Sipariş Tarihi</th>
+            <th>Sipariş / Teklif</th>       
+          
+            <th>Detay</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>@x.SiparisID</td>               
+                <td>@x.SiparisTanimi</td>
+                <td>@x.Birim</td>
+                <td>@x.BirimFiyat ₺</td>
+                <td>@x.SiparisTutari ₺</td>
+                <td>@x.SiparisTarihi.ToShortDateString()</td>
+                <td>@(x.SiparisTeklifDurumu == false ? "Teklif" : (x.SiparisTeklifDurumu == true ? "Sipariş" : "-"))</td>
+                   
+              
+               
+                <td>
+                    <a class="btn btn-info btn-sm" href="@Url.Action("Detay", "Siparis", new { id = x.SiparisID })">Git</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("TümSiparisListesi", "Siparis", new { page }))
+
+</div>

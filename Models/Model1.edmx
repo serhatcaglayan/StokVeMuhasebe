@@ -1,0 +1,1134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="adenModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Gelirler">
+          <Key>
+            <PropertyRef Name="GelirID" />
+          </Key>
+          <Property Name="GelirID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tutar" Type="float" />
+          <Property Name="OdemeTurID" Type="int" />
+          <Property Name="EklemeYapanUserID" Type="int" />
+          <Property Name="Tarih" Type="datetime" />
+          <Property Name="Aciklama" Type="varchar" MaxLength="100" />
+          <Property Name="KasayaYansit" Type="bit" />
+          <Property Name="OdemeTarihi" Type="datetime" />
+          <Property Name="GuncellemeTarihi" Type="datetime" />
+          <Property Name="Son_Guncelleme_Yapan_User" Type="int" />
+        </EntityType>
+        <EntityType Name="Giderler">
+          <Key>
+            <PropertyRef Name="GiderID" />
+          </Key>
+          <Property Name="GiderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Tutar" Type="float" />
+          <Property Name="GiderTurID" Type="int" />
+          <Property Name="OdemeTurID" Type="int" />
+          <Property Name="EklemeYapanUserID" Type="int" />
+          <Property Name="Tarih" Type="datetime" Nullable="false" />
+          <Property Name="EkAcıklama" Type="varchar" MaxLength="500" />
+          <Property Name="KasayaYansıt" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GiderTur">
+          <Key>
+            <PropertyRef Name="GiderTurID" />
+          </Key>
+          <Property Name="GiderTurID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="GiderAd" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Kasa">
+          <Key>
+            <PropertyRef Name="KasaID" />
+          </Key>
+          <Property Name="KasaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KasaTipID" Type="int" Nullable="false" />
+          <Property Name="Tutar" Type="float" />
+        </EntityType>
+        <EntityType Name="KasaTip">
+          <Key>
+            <PropertyRef Name="KasaTipID" />
+          </Key>
+          <Property Name="KasaTipID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KasaTipAdı" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="LogIslemTur">
+          <Key>
+            <PropertyRef Name="LogIslemTurID" />
+          </Key>
+          <Property Name="LogIslemTurID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IslemAd" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Loglar">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LogTarihi" Type="datetime" Nullable="false" />
+          <Property Name="LogAcıklama" Type="text" />
+          <Property Name="IslemTurID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Malzemeler">
+          <Key>
+            <PropertyRef Name="MalzemeID" />
+          </Key>
+          <Property Name="MalzemeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MalzemeAdı" Type="nvarchar" MaxLength="100" />
+          <Property Name="StokMiktari" Type="float" />
+          <Property Name="AlısFiyati" Type="float" />
+          <Property Name="AlısTarihi" Type="datetime" />
+          <Property Name="EklemeYapanUserID" Type="int" />
+        </EntityType>
+        <EntityType Name="Musteriler">
+          <Key>
+            <PropertyRef Name="MusteriID" />
+          </Key>
+          <Property Name="MusteriID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MusteriAd" Type="nvarchar" MaxLength="50" />
+          <Property Name="MusteriSoyad" Type="nvarchar" MaxLength="50" />
+          <Property Name="KayıtTarihi" Type="datetime" Nullable="false" />
+          <Property Name="Adres" Type="nvarchar" MaxLength="500" />
+          <Property Name="Acıklama" Type="nvarchar" MaxLength="500" />
+          <Property Name="AktifMi" Type="bit" Nullable="false" />
+          <Property Name="Telefon" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Odemeler">
+          <Key>
+            <PropertyRef Name="OdemelerID" />
+          </Key>
+          <Property Name="OdemelerID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SiparisID" Type="int" Nullable="false" />
+          <Property Name="OdemeTuruID" Type="int" Nullable="false" />
+          <Property Name="EkAciklama" Type="varchar" MaxLength="500" />
+          <Property Name="OdemeTarihi" Type="datetime" Nullable="false" />
+          <Property Name="GuncellemeYapanUserID" Type="int" />
+          <Property Name="GuncellemeTarihi" Type="datetime" />
+          <Property Name="OdemeTutarı" Type="float" />
+          <Property Name="KasayaYansit" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OdemeTur">
+          <Key>
+            <PropertyRef Name="OdemeTur" />
+          </Key>
+          <Property Name="OdemeTur" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OdemeAdı" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Siparisler">
+          <Key>
+            <PropertyRef Name="SiparisID" />
+          </Key>
+          <Property Name="SiparisID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SiparisTanimi" Type="nvarchar" MaxLength="200" />
+          <Property Name="UrunKategoriID" Type="int" />
+          <Property Name="MusteriID" Type="int" Nullable="false" />
+          <Property Name="SiparisTutari" Type="float" />
+          <Property Name="BirimFiyat" Type="float" />
+          <Property Name="Birim" Type="float" />
+          <Property Name="SiparisTeklifDurumu" Type="bit" Nullable="false" />
+          <Property Name="SiparisTarihi" Type="datetime" Nullable="false" />
+          <Property Name="OdemeTurID" Type="int" Nullable="false" />
+          <Property Name="GuncellemeTarihi" Type="datetime" Nullable="false" />
+          <Property Name="GuncellemeYapanUserID" Type="int" Nullable="false" />
+          <Property Name="SiparisAktifMi" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SiparisMalzemeler">
+          <Key>
+            <PropertyRef Name="SiparisMalzemeID" />
+          </Key>
+          <Property Name="SiparisMalzemeID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SiparisID" Type="int" Nullable="false" />
+          <Property Name="MalzemeID" Type="int" Nullable="false" />
+          <Property Name="Birim" Type="float" />
+          <Property Name="StoktanDus" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Taksit">
+          <Key>
+            <PropertyRef Name="TaksitID" />
+          </Key>
+          <Property Name="TaksitID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaksitPlanID" Type="int" />
+          <Property Name="TaksitNo" Type="int" />
+          <Property Name="TaksitVadeTarihi" Type="datetime" />
+          <Property Name="TaksitTutari" Type="float" />
+          <Property Name="TaksitDurumu" Type="nchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="TaksitPlan">
+          <Key>
+            <PropertyRef Name="TaksitPlanID" />
+          </Key>
+          <Property Name="TaksitPlanID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TaksitSayisi" Type="int" />
+          <Property Name="ToplamTutar" Type="float" />
+          <Property Name="SiparisID" Type="int" />
+          <Property Name="Tarih" Type="datetime" />
+          <Property Name="Durum" Type="nchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="UrunKategori">
+          <Key>
+            <PropertyRef Name="UrunKategoriID" />
+          </Key>
+          <Property Name="UrunKategoriID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="KategoriAdı" Type="nvarchar" MaxLength="150" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="password" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserAd" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserSoyAd" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'aden.dbo.View_Gelirler' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="View_Gelirler">
+          <Key>
+            <PropertyRef Name="GelirID" />
+            <PropertyRef Name="username" />
+          </Key>
+          <Property Name="GelirID" Type="int" Nullable="false" />
+          <Property Name="Tutar" Type="float" />
+          <Property Name="OdemeTurID" Type="int" />
+          <Property Name="EklemeYapanUserID" Type="int" />
+          <Property Name="Tarih" Type="datetime" />
+          <Property Name="Aciklama" Type="varchar" MaxLength="100" />
+          <Property Name="KasayaYansit" Type="bit" />
+          <Property Name="OdemeAdı" Type="nvarchar" MaxLength="50" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'aden.dbo.ViewGiderler' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewGiderler">
+          <Key>
+            <PropertyRef Name="GiderID" />
+            <PropertyRef Name="Tarih" />
+            <PropertyRef Name="UserAd" />
+            <PropertyRef Name="KasayaYansıt" />
+          </Key>
+          <Property Name="GiderID" Type="int" Nullable="false" />
+          <Property Name="GiderAd" Type="varchar" MaxLength="100" />
+          <Property Name="Tutar" Type="float" />
+          <Property Name="EkAcıklama" Type="varchar" MaxLength="500" />
+          <Property Name="Tarih" Type="datetime" Nullable="false" />
+          <Property Name="UserAd" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="KasayaYansıt" Type="bit" Nullable="false" />
+          <Property Name="OdemeAdı" Type="varchar" MaxLength="50" />
+          <Property Name="GiderTurID" Type="int" />
+          <Property Name="OdemeTurID" Type="int" />
+          <Property Name="EklemeYapanUserID" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'aden.dbo.ViewKasaBilgisi' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewKasaBilgisi">
+          <Key>
+            <PropertyRef Name="KasaID" />
+            <PropertyRef Name="KasaTipID" />
+          </Key>
+          <Property Name="KasaID" Type="int" Nullable="false" />
+          <Property Name="KasaTipID" Type="int" Nullable="false" />
+          <Property Name="Tutar" Type="float" />
+          <Property Name="KasaTipAdı" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'aden.dbo.ViewLog' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewLog">
+          <Key>
+            <PropertyRef Name="LogID" />
+            <PropertyRef Name="LogTarihi" />
+            <PropertyRef Name="username" />
+            <PropertyRef Name="IslemTurID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="LogID" Type="int" Nullable="false" />
+          <Property Name="LogTarihi" Type="date" Nullable="false" />
+          <Property Name="LogAcıklama" Type="text" />
+          <Property Name="IslemAd" Type="varchar" MaxLength="50" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="IslemTurID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'aden.dbo.ViewSiparis' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewSiparis">
+          <Key>
+            <PropertyRef Name="KategoriAdı" />
+            <PropertyRef Name="SiparisTarihi" />
+            <PropertyRef Name="SiparisAktifMi" />
+            <PropertyRef Name="SiparisTeklifDurumu" />
+            <PropertyRef Name="SiparisID" />
+            <PropertyRef Name="UserAd" />
+            <PropertyRef Name="username" />
+            <PropertyRef Name="OdemeTurID" />
+            <PropertyRef Name="MusteriID" />
+          </Key>
+          <Property Name="MusteriAdSoyad" Type="varchar" MaxLength="101" />
+          <Property Name="KategoriAdı" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="SiparisTanimi" Type="text" />
+          <Property Name="Birim" Type="float" />
+          <Property Name="BirimFiyat" Type="float" />
+          <Property Name="SiparisTutari" Type="float" />
+          <Property Name="SiparisTarihi" Type="datetime" Nullable="false" />
+          <Property Name="OdemeAdı" Type="varchar" MaxLength="50" />
+          <Property Name="GuncellemeTarihi" Type="date" />
+          <Property Name="SiparisAktifMi" Type="bit" Nullable="false" />
+          <Property Name="SiparisTeklifDurumu" Type="bit" Nullable="false" />
+          <Property Name="SiparisID" Type="int" Nullable="false" />
+          <Property Name="UserAd" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="OdemeTurID" Type="int" Nullable="false" />
+          <Property Name="MusteriID" Type="int" Nullable="false" />
+          <Property Name="UrunKategoriID" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'aden.dbo.ViewSiparisMalzemeleri' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewSiparisMalzemeleri">
+          <Key>
+            <PropertyRef Name="MalzemeID" />
+            <PropertyRef Name="SiparisID" />
+            <PropertyRef Name="SiparisMalzemeID" />
+            <PropertyRef Name="StoktanDus" />
+          </Key>
+          <Property Name="MalzemeID" Type="int" Nullable="false" />
+          <Property Name="MalzemeAdı" Type="varchar" MaxLength="100" />
+          <Property Name="AlısFiyati" Type="float" />
+          <Property Name="StokMiktari" Type="float" />
+          <Property Name="SiparisID" Type="int" Nullable="false" />
+          <Property Name="SiparisMalzemeID" Type="int" Nullable="false" />
+          <Property Name="Birim" Type="float" />
+          <Property Name="StoktanDus" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'aden.dbo.ViewTaksitler' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ViewTaksitler">
+          <Key>
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="TaksitID" />
+            <PropertyRef Name="Expr2" />
+          </Key>
+          <Property Name="Expr1" Type="int" Nullable="false" />
+          <Property Name="TaksitSayisi" Type="int" />
+          <Property Name="ToplamTutar" Type="float" />
+          <Property Name="SiparisID" Type="int" />
+          <Property Name="Tarih" Type="datetime" />
+          <Property Name="Durum" Type="nchar" MaxLength="25" />
+          <Property Name="TaksitID" Type="int" Nullable="false" />
+          <Property Name="TaksitPlanID" Type="int" />
+          <Property Name="TaksitNo" Type="int" />
+          <Property Name="TaksitVadeTarihi" Type="datetime" />
+          <Property Name="TaksitTutari" Type="float" />
+          <Property Name="TaksitDurumu" Type="nchar" MaxLength="25" />
+          <Property Name="Expr2" Type="int" Nullable="false" />
+          <Property Name="Expr3" Type="int" />
+          <Property Name="Expr4" Type="int" />
+          <Property Name="Expr5" Type="datetime" />
+          <Property Name="Expr6" Type="float" />
+          <Property Name="Expr7" Type="nchar" MaxLength="25" />
+        </EntityType>
+        <EntityContainer Name="adenModelStoreContainer">
+          <EntitySet Name="Gelirler" EntityType="Self.Gelirler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Giderler" EntityType="Self.Giderler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GiderTur" EntityType="Self.GiderTur" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kasa" EntityType="Self.Kasa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="KasaTip" EntityType="Self.KasaTip" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogIslemTur" EntityType="Self.LogIslemTur" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Loglar" EntityType="Self.Loglar" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Malzemeler" EntityType="Self.Malzemeler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Musteriler" EntityType="Self.Musteriler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Odemeler" EntityType="Self.Odemeler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OdemeTur" EntityType="Self.OdemeTur" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Siparisler" EntityType="Self.Siparisler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiparisMalzemeler" EntityType="Self.SiparisMalzemeler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Taksit" EntityType="Self.Taksit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TaksitPlan" EntityType="Self.TaksitPlan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UrunKategori" EntityType="Self.UrunKategori" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="View_Gelirler" EntityType="Self.View_Gelirler" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_Gelirler].[GelirID] AS [GelirID], 
+    [View_Gelirler].[Tutar] AS [Tutar], 
+    [View_Gelirler].[OdemeTurID] AS [OdemeTurID], 
+    [View_Gelirler].[EklemeYapanUserID] AS [EklemeYapanUserID], 
+    [View_Gelirler].[Tarih] AS [Tarih], 
+    [View_Gelirler].[Aciklama] AS [Aciklama], 
+    [View_Gelirler].[KasayaYansit] AS [KasayaYansit], 
+    [View_Gelirler].[OdemeAdı] AS [OdemeAdı], 
+    [View_Gelirler].[username] AS [username]
+    FROM [dbo].[View_Gelirler] AS [View_Gelirler]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewGiderler" EntityType="Self.ViewGiderler" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewGiderler].[GiderID] AS [GiderID], 
+    [ViewGiderler].[GiderAd] AS [GiderAd], 
+    [ViewGiderler].[Tutar] AS [Tutar], 
+    [ViewGiderler].[EkAcıklama] AS [EkAcıklama], 
+    [ViewGiderler].[Tarih] AS [Tarih], 
+    [ViewGiderler].[UserAd] AS [UserAd], 
+    [ViewGiderler].[KasayaYansıt] AS [KasayaYansıt], 
+    [ViewGiderler].[OdemeAdı] AS [OdemeAdı], 
+    [ViewGiderler].[GiderTurID] AS [GiderTurID], 
+    [ViewGiderler].[OdemeTurID] AS [OdemeTurID], 
+    [ViewGiderler].[EklemeYapanUserID] AS [EklemeYapanUserID]
+    FROM [dbo].[ViewGiderler] AS [ViewGiderler]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewKasaBilgisi" EntityType="Self.ViewKasaBilgisi" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewKasaBilgisi].[KasaID] AS [KasaID], 
+    [ViewKasaBilgisi].[KasaTipID] AS [KasaTipID], 
+    [ViewKasaBilgisi].[Tutar] AS [Tutar], 
+    [ViewKasaBilgisi].[KasaTipAdı] AS [KasaTipAdı]
+    FROM [dbo].[ViewKasaBilgisi] AS [ViewKasaBilgisi]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewLog" EntityType="Self.ViewLog" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewLog].[LogID] AS [LogID], 
+    [ViewLog].[LogTarihi] AS [LogTarihi], 
+    [ViewLog].[LogAcıklama] AS [LogAcıklama], 
+    [ViewLog].[IslemAd] AS [IslemAd], 
+    [ViewLog].[username] AS [username], 
+    [ViewLog].[IslemTurID] AS [IslemTurID], 
+    [ViewLog].[UserID] AS [UserID]
+    FROM [dbo].[ViewLog] AS [ViewLog]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewSiparis" EntityType="Self.ViewSiparis" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewSiparis].[MusteriAdSoyad] AS [MusteriAdSoyad], 
+    [ViewSiparis].[KategoriAdı] AS [KategoriAdı], 
+    [ViewSiparis].[SiparisTanimi] AS [SiparisTanimi], 
+    [ViewSiparis].[Birim] AS [Birim], 
+    [ViewSiparis].[BirimFiyat] AS [BirimFiyat], 
+    [ViewSiparis].[SiparisTutari] AS [SiparisTutari], 
+    [ViewSiparis].[SiparisTarihi] AS [SiparisTarihi], 
+    [ViewSiparis].[OdemeAdı] AS [OdemeAdı], 
+    [ViewSiparis].[GuncellemeTarihi] AS [GuncellemeTarihi], 
+    [ViewSiparis].[SiparisAktifMi] AS [SiparisAktifMi], 
+    [ViewSiparis].[SiparisTeklifDurumu] AS [SiparisTeklifDurumu], 
+    [ViewSiparis].[SiparisID] AS [SiparisID], 
+    [ViewSiparis].[UserAd] AS [UserAd], 
+    [ViewSiparis].[username] AS [username], 
+    [ViewSiparis].[OdemeTurID] AS [OdemeTurID], 
+    [ViewSiparis].[MusteriID] AS [MusteriID], 
+    [ViewSiparis].[UrunKategoriID] AS [UrunKategoriID]
+    FROM [dbo].[ViewSiparis] AS [ViewSiparis]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewSiparisMalzemeleri" EntityType="Self.ViewSiparisMalzemeleri" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewSiparisMalzemeleri].[MalzemeID] AS [MalzemeID], 
+    [ViewSiparisMalzemeleri].[MalzemeAdı] AS [MalzemeAdı], 
+    [ViewSiparisMalzemeleri].[AlısFiyati] AS [AlısFiyati], 
+    [ViewSiparisMalzemeleri].[StokMiktari] AS [StokMiktari], 
+    [ViewSiparisMalzemeleri].[SiparisID] AS [SiparisID], 
+    [ViewSiparisMalzemeleri].[SiparisMalzemeID] AS [SiparisMalzemeID], 
+    [ViewSiparisMalzemeleri].[Birim] AS [Birim], 
+    [ViewSiparisMalzemeleri].[StoktanDus] AS [StoktanDus]
+    FROM [dbo].[ViewSiparisMalzemeleri] AS [ViewSiparisMalzemeleri]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ViewTaksitler" EntityType="Self.ViewTaksitler" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ViewTaksitler].[Expr1] AS [Expr1], 
+    [ViewTaksitler].[TaksitSayisi] AS [TaksitSayisi], 
+    [ViewTaksitler].[ToplamTutar] AS [ToplamTutar], 
+    [ViewTaksitler].[SiparisID] AS [SiparisID], 
+    [ViewTaksitler].[Tarih] AS [Tarih], 
+    [ViewTaksitler].[Durum] AS [Durum], 
+    [ViewTaksitler].[TaksitID] AS [TaksitID], 
+    [ViewTaksitler].[TaksitPlanID] AS [TaksitPlanID], 
+    [ViewTaksitler].[TaksitNo] AS [TaksitNo], 
+    [ViewTaksitler].[TaksitVadeTarihi] AS [TaksitVadeTarihi], 
+    [ViewTaksitler].[TaksitTutari] AS [TaksitTutari], 
+    [ViewTaksitler].[TaksitDurumu] AS [TaksitDurumu], 
+    [ViewTaksitler].[Expr2] AS [Expr2], 
+    [ViewTaksitler].[Expr3] AS [Expr3], 
+    [ViewTaksitler].[Expr4] AS [Expr4], 
+    [ViewTaksitler].[Expr5] AS [Expr5], 
+    [ViewTaksitler].[Expr6] AS [Expr6], 
+    [ViewTaksitler].[Expr7] AS [Expr7]
+    FROM [dbo].[ViewTaksitler] AS [ViewTaksitler]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="adenModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Giderler">
+          <Key>
+            <PropertyRef Name="GiderID" />
+          </Key>
+          <Property Name="GiderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tutar" Type="Double" />
+          <Property Name="GiderTurID" Type="Int32" />
+          <Property Name="OdemeTurID" Type="Int32" />
+          <Property Name="EklemeYapanUserID" Type="Int32" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="EkAcıklama" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="KasayaYansıt" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GiderTur">
+          <Key>
+            <PropertyRef Name="GiderTurID" />
+          </Key>
+          <Property Name="GiderTurID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="GiderAd" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Kasa">
+          <Key>
+            <PropertyRef Name="KasaID" />
+          </Key>
+          <Property Name="KasaID" Type="Int32" Nullable="false" />
+          <Property Name="KasaTipID" Type="Int32" Nullable="false" />
+          <Property Name="Tutar" Type="Double" />
+        </EntityType>
+        <EntityType Name="KasaTip">
+          <Key>
+            <PropertyRef Name="KasaTipID" />
+          </Key>
+          <Property Name="KasaTipID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KasaTipAdı" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="LogIslemTur">
+          <Key>
+            <PropertyRef Name="LogIslemTurID" />
+          </Key>
+          <Property Name="LogIslemTurID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IslemAd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Loglar">
+          <Key>
+            <PropertyRef Name="LogID" />
+          </Key>
+          <Property Name="LogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LogTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LogAcıklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IslemTurID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Malzemeler">
+          <Key>
+            <PropertyRef Name="MalzemeID" />
+          </Key>
+          <Property Name="MalzemeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MalzemeAdı" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StokMiktari" Type="Double" />
+          <Property Name="AlısFiyati" Type="Double" />
+          <Property Name="AlısTarihi" Type="DateTime" Precision="3" />
+          <Property Name="EklemeYapanUserID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Musteriler">
+          <Key>
+            <PropertyRef Name="MusteriID" />
+          </Key>
+          <Property Name="MusteriID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MusteriAd" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MusteriSoyad" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="KayıtTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Adres" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="Acıklama" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="AktifMi" Type="Boolean" Nullable="false" />
+          <Property Name="Telefon" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Odemeler">
+          <Key>
+            <PropertyRef Name="OdemelerID" />
+          </Key>
+          <Property Name="OdemelerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiparisID" Type="Int32" Nullable="false" />
+          <Property Name="OdemeTuruID" Type="Int32" Nullable="false" />
+          <Property Name="EkAciklama" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="OdemeTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="GuncellemeYapanUserID" Type="Int32" />
+          <Property Name="GuncellemeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="OdemeTutarı" Type="Double" />
+          <Property Name="KasayaYansit" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OdemeTur">
+          <Key>
+            <PropertyRef Name="OdemeTur1" />
+          </Key>
+          <Property Name="OdemeTur1" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="OdemeAdı" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Siparisler">
+          <Key>
+            <PropertyRef Name="SiparisID" />
+          </Key>
+          <Property Name="SiparisID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiparisTanimi" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UrunKategoriID" Type="Int32" />
+          <Property Name="MusteriID" Type="Int32" Nullable="false" />
+          <Property Name="SiparisTutari" Type="Double" />
+          <Property Name="BirimFiyat" Type="Double" />
+          <Property Name="Birim" Type="Double" />
+          <Property Name="SiparisTeklifDurumu" Type="Boolean" Nullable="false" />
+          <Property Name="SiparisTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OdemeTurID" Type="Int32" Nullable="false" />
+          <Property Name="GuncellemeTarihi" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="GuncellemeYapanUserID" Type="Int32" Nullable="false" />
+          <Property Name="SiparisAktifMi" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SiparisMalzemeler">
+          <Key>
+            <PropertyRef Name="SiparisMalzemeID" />
+          </Key>
+          <Property Name="SiparisMalzemeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SiparisID" Type="Int32" Nullable="false" />
+          <Property Name="MalzemeID" Type="Int32" Nullable="false" />
+          <Property Name="Birim" Type="Double" />
+          <Property Name="StoktanDus" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UrunKategori">
+          <Key>
+            <PropertyRef Name="UrunKategoriID" />
+          </Key>
+          <Property Name="UrunKategoriID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="KategoriAdı" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserAd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserSoyAd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewGiderler">
+          <Key>
+            <PropertyRef Name="GiderID" />
+            <PropertyRef Name="Tarih" />
+            <PropertyRef Name="UserAd" />
+            <PropertyRef Name="KasayaYansıt" />
+          </Key>
+          <Property Name="GiderID" Type="Int32" Nullable="false" />
+          <Property Name="GiderAd" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Tutar" Type="Double" />
+          <Property Name="EkAcıklama" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <Property Name="Tarih" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UserAd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="KasayaYansıt" Type="Boolean" Nullable="false" />
+          <Property Name="OdemeAdı" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GiderTurID" Type="Int32" />
+          <Property Name="OdemeTurID" Type="Int32" />
+          <Property Name="EklemeYapanUserID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ViewSiparis">
+          <Key>
+            <PropertyRef Name="KategoriAdı" />
+            <PropertyRef Name="SiparisTarihi" />
+            <PropertyRef Name="SiparisAktifMi" />
+            <PropertyRef Name="SiparisTeklifDurumu" />
+            <PropertyRef Name="SiparisID" />
+            <PropertyRef Name="UserAd" />
+            <PropertyRef Name="MusteriID" />
+            <PropertyRef Name="username" />
+            <PropertyRef Name="OdemeTurID" />
+          </Key>
+          <Property Name="MusteriAdSoyad" Type="String" MaxLength="101" FixedLength="false" Unicode="false" />
+          <Property Name="KategoriAdı" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="SiparisTanimi" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Birim" Type="Double" />
+          <Property Name="BirimFiyat" Type="Double" />
+          <Property Name="SiparisTutari" Type="Double" />
+          <Property Name="SiparisTarihi" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="OdemeAdı" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="GuncellemeTarihi" Type="DateTime" Precision="0" />
+          <Property Name="SiparisAktifMi" Type="Boolean" Nullable="false" />
+          <Property Name="SiparisTeklifDurumu" Type="Boolean" Nullable="false" />
+          <Property Name="SiparisID" Type="Int32" Nullable="false" />
+          <Property Name="UserAd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="MusteriID" Type="Int32" Nullable="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="OdemeTurID" Type="Int32" Nullable="false" />
+          <Property Name="UrunKategoriID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ViewSiparisMalzemeleri">
+          <Key>
+            <PropertyRef Name="MalzemeID" />
+            <PropertyRef Name="SiparisID" />
+            <PropertyRef Name="SiparisMalzemeID" />
+            <PropertyRef Name="StoktanDus" />
+          </Key>
+          <Property Name="MalzemeID" Type="Int32" Nullable="false" />
+          <Property Name="MalzemeAdı" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="AlısFiyati" Type="Double" />
+          <Property Name="StokMiktari" Type="Double" />
+          <Property Name="SiparisID" Type="Int32" Nullable="false" />
+          <Property Name="SiparisMalzemeID" Type="Int32" Nullable="false" />
+          <Property Name="Birim" Type="Double" />
+          <Property Name="StoktanDus" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="adenEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Giderler" EntityType="Self.Giderler" />
+          <EntitySet Name="GiderTur" EntityType="Self.GiderTur" />
+          <EntitySet Name="Kasa" EntityType="Self.Kasa" />
+          <EntitySet Name="KasaTip" EntityType="Self.KasaTip" />
+          <EntitySet Name="LogIslemTur" EntityType="Self.LogIslemTur" />
+          <EntitySet Name="Loglar" EntityType="Self.Loglar" />
+          <EntitySet Name="Malzemeler" EntityType="Self.Malzemeler" />
+          <EntitySet Name="Musteriler" EntityType="Self.Musteriler" />
+          <EntitySet Name="Odemeler" EntityType="Self.Odemeler" />
+          <EntitySet Name="OdemeTur" EntityType="Self.OdemeTur" />
+          <EntitySet Name="Siparisler" EntityType="Self.Siparisler" />
+          <EntitySet Name="SiparisMalzemeler" EntityType="Self.SiparisMalzemeler" />
+          <EntitySet Name="UrunKategori" EntityType="Self.UrunKategori" />
+          <EntitySet Name="Users" EntityType="Self.Users" />
+          <EntitySet Name="ViewGiderler" EntityType="Self.ViewGiderler" />
+          <EntitySet Name="ViewSiparis" EntityType="Self.ViewSiparis" />
+          <EntitySet Name="ViewSiparisMalzemeleri" EntityType="Self.ViewSiparisMalzemeleri" />
+          <EntitySet Name="ViewLog" EntityType="adenModel.ViewLog" />
+          <EntitySet Name="ViewKasaBilgisi" EntityType="adenModel.ViewKasaBilgisi" />
+          <EntitySet Name="Gelirler" EntityType="adenModel.Gelirler" />
+          <EntitySet Name="Taksit" EntityType="adenModel.Taksit" />
+          <EntitySet Name="TaksitPlan" EntityType="adenModel.TaksitPlan" />
+          <EntitySet Name="ViewTaksitler" EntityType="adenModel.ViewTaksitler" />
+          <EntitySet Name="View_Gelirler" EntityType="adenModel.View_Gelirler" />
+        </EntityContainer>
+        <EntityType Name="ViewLog">
+          <Key>
+            <PropertyRef Name="LogID" />
+            <PropertyRef Name="LogTarihi" />
+            <PropertyRef Name="username" />
+            <PropertyRef Name="IslemTurID" />
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="LogID" Type="Int32" Nullable="false" />
+          <Property Name="LogTarihi" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="LogAcıklama" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="IslemAd" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IslemTurID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ViewKasaBilgisi">
+          <Key>
+            <PropertyRef Name="KasaID" />
+            <PropertyRef Name="KasaTipID" />
+          </Key>
+          <Property Name="KasaID" Type="Int32" Nullable="false" />
+          <Property Name="KasaTipID" Type="Int32" Nullable="false" />
+          <Property Name="Tutar" Type="Double" />
+          <Property Name="KasaTipAdı" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Gelirler">
+          <Key>
+            <PropertyRef Name="GelirID" />
+          </Key>
+          <Property Name="GelirID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Tutar" Type="Double" />
+          <Property Name="OdemeTurID" Type="Int32" />
+          <Property Name="EklemeYapanUserID" Type="Int32" />
+          <Property Name="Tarih" Type="DateTime" Precision="3" />
+          <Property Name="Aciklama" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="KasayaYansit" Type="Boolean" />
+          <Property Name="OdemeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="GuncellemeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="Son_Guncelleme_Yapan_User" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Taksit">
+          <Key>
+            <PropertyRef Name="TaksitID" />
+          </Key>
+          <Property Name="TaksitID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaksitPlanID" Type="Int32" />
+          <Property Name="TaksitNo" Type="Int32" />
+          <Property Name="TaksitVadeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="TaksitTutari" Type="Double" />
+          <Property Name="TaksitDurumu" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="TaksitPlan">
+          <Key>
+            <PropertyRef Name="TaksitPlanID" />
+          </Key>
+          <Property Name="TaksitPlanID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TaksitSayisi" Type="Int32" />
+          <Property Name="ToplamTutar" Type="Double" />
+          <Property Name="SiparisID" Type="Int32" />
+          <Property Name="Tarih" Type="DateTime" Precision="3" />
+          <Property Name="Durum" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ViewTaksitler">
+          <Key>
+            <PropertyRef Name="Expr1" />
+            <PropertyRef Name="TaksitID" />
+            <PropertyRef Name="Expr2" />
+          </Key>
+          <Property Name="Expr1" Type="Int32" Nullable="false" />
+          <Property Name="TaksitSayisi" Type="Int32" />
+          <Property Name="ToplamTutar" Type="Double" />
+          <Property Name="SiparisID" Type="Int32" />
+          <Property Name="Tarih" Type="DateTime" Precision="3" />
+          <Property Name="Durum" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="TaksitID" Type="Int32" Nullable="false" />
+          <Property Name="TaksitPlanID" Type="Int32" />
+          <Property Name="TaksitNo" Type="Int32" />
+          <Property Name="TaksitVadeTarihi" Type="DateTime" Precision="3" />
+          <Property Name="TaksitTutari" Type="Double" />
+          <Property Name="TaksitDurumu" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+          <Property Name="Expr2" Type="Int32" Nullable="false" />
+          <Property Name="Expr3" Type="Int32" />
+          <Property Name="Expr4" Type="Int32" />
+          <Property Name="Expr5" Type="DateTime" Precision="3" />
+          <Property Name="Expr6" Type="Double" />
+          <Property Name="Expr7" Type="String" MaxLength="25" FixedLength="true" Unicode="true" />
+        </EntityType>
+        <EntityType Name="View_Gelirler">
+          <Key>
+            <PropertyRef Name="GelirID" />
+            <PropertyRef Name="username" />
+          </Key>
+          <Property Name="GelirID" Type="Int32" Nullable="false" />
+          <Property Name="Tutar" Type="Double" />
+          <Property Name="OdemeTurID" Type="Int32" />
+          <Property Name="EklemeYapanUserID" Type="Int32" />
+          <Property Name="Tarih" Type="DateTime" Precision="3" />
+          <Property Name="Aciklama" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="KasayaYansit" Type="Boolean" />
+          <Property Name="OdemeAdı" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="adenModelStoreContainer" CdmEntityContainer="adenEntities">
+          <EntitySetMapping Name="Giderler">
+            <EntityTypeMapping TypeName="adenModel.Giderler">
+              <MappingFragment StoreEntitySet="Giderler">
+                <ScalarProperty Name="GiderID" ColumnName="GiderID" />
+                <ScalarProperty Name="Tutar" ColumnName="Tutar" />
+                <ScalarProperty Name="GiderTurID" ColumnName="GiderTurID" />
+                <ScalarProperty Name="OdemeTurID" ColumnName="OdemeTurID" />
+                <ScalarProperty Name="EklemeYapanUserID" ColumnName="EklemeYapanUserID" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="EkAcıklama" ColumnName="EkAcıklama" />
+                <ScalarProperty Name="KasayaYansıt" ColumnName="KasayaYansıt" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GiderTur">
+            <EntityTypeMapping TypeName="adenModel.GiderTur">
+              <MappingFragment StoreEntitySet="GiderTur">
+                <ScalarProperty Name="GiderTurID" ColumnName="GiderTurID" />
+                <ScalarProperty Name="GiderAd" ColumnName="GiderAd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kasa">
+            <EntityTypeMapping TypeName="adenModel.Kasa">
+              <MappingFragment StoreEntitySet="Kasa">
+                <ScalarProperty Name="KasaID" ColumnName="KasaID" />
+                <ScalarProperty Name="KasaTipID" ColumnName="KasaTipID" />
+                <ScalarProperty Name="Tutar" ColumnName="Tutar" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="KasaTip">
+            <EntityTypeMapping TypeName="adenModel.KasaTip">
+              <MappingFragment StoreEntitySet="KasaTip">
+                <ScalarProperty Name="KasaTipID" ColumnName="KasaTipID" />
+                <ScalarProperty Name="KasaTipAdı" ColumnName="KasaTipAdı" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LogIslemTur">
+            <EntityTypeMapping TypeName="adenModel.LogIslemTur">
+              <MappingFragment StoreEntitySet="LogIslemTur">
+                <ScalarProperty Name="LogIslemTurID" ColumnName="LogIslemTurID" />
+                <ScalarProperty Name="IslemAd" ColumnName="IslemAd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Loglar">
+            <EntityTypeMapping TypeName="adenModel.Loglar">
+              <MappingFragment StoreEntitySet="Loglar">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+                <ScalarProperty Name="LogTarihi" ColumnName="LogTarihi" />
+                <ScalarProperty Name="LogAcıklama" ColumnName="LogAcıklama" />
+                <ScalarProperty Name="IslemTurID" ColumnName="IslemTurID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Malzemeler">
+            <EntityTypeMapping TypeName="adenModel.Malzemeler">
+              <MappingFragment StoreEntitySet="Malzemeler">
+                <ScalarProperty Name="MalzemeID" ColumnName="MalzemeID" />
+                <ScalarProperty Name="MalzemeAdı" ColumnName="MalzemeAdı" />
+                <ScalarProperty Name="StokMiktari" ColumnName="StokMiktari" />
+                <ScalarProperty Name="AlısFiyati" ColumnName="AlısFiyati" />
+                <ScalarProperty Name="AlısTarihi" ColumnName="AlısTarihi" />
+                <ScalarProperty Name="EklemeYapanUserID" ColumnName="EklemeYapanUserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Musteriler">
+            <EntityTypeMapping TypeName="adenModel.Musteriler">
+              <MappingFragment StoreEntitySet="Musteriler">
+                <ScalarProperty Name="MusteriID" ColumnName="MusteriID" />
+                <ScalarProperty Name="MusteriAd" ColumnName="MusteriAd" />
+                <ScalarProperty Name="MusteriSoyad" ColumnName="MusteriSoyad" />
+                <ScalarProperty Name="KayıtTarihi" ColumnName="KayıtTarihi" />
+                <ScalarProperty Name="Adres" ColumnName="Adres" />
+                <ScalarProperty Name="Acıklama" ColumnName="Acıklama" />
+                <ScalarProperty Name="AktifMi" ColumnName="AktifMi" />
+                <ScalarProperty Name="Telefon" ColumnName="Telefon" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Odemeler">
+            <EntityTypeMapping TypeName="adenModel.Odemeler">
+              <MappingFragment StoreEntitySet="Odemeler">
+                <ScalarProperty Name="OdemelerID" ColumnName="OdemelerID" />
+                <ScalarProperty Name="SiparisID" ColumnName="SiparisID" />
+                <ScalarProperty Name="OdemeTuruID" ColumnName="OdemeTuruID" />
+                <ScalarProperty Name="EkAciklama" ColumnName="EkAciklama" />
+                <ScalarProperty Name="OdemeTarihi" ColumnName="OdemeTarihi" />
+                <ScalarProperty Name="GuncellemeYapanUserID" ColumnName="GuncellemeYapanUserID" />
+                <ScalarProperty Name="GuncellemeTarihi" ColumnName="GuncellemeTarihi" />
+                <ScalarProperty Name="OdemeTutarı" ColumnName="OdemeTutarı" />
+                <ScalarProperty Name="KasayaYansit" ColumnName="KasayaYansit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OdemeTur">
+            <EntityTypeMapping TypeName="adenModel.OdemeTur">
+              <MappingFragment StoreEntitySet="OdemeTur">
+                <ScalarProperty Name="OdemeTur1" ColumnName="OdemeTur" />
+                <ScalarProperty Name="OdemeAdı" ColumnName="OdemeAdı" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Siparisler">
+            <EntityTypeMapping TypeName="adenModel.Siparisler">
+              <MappingFragment StoreEntitySet="Siparisler">
+                <ScalarProperty Name="SiparisID" ColumnName="SiparisID" />
+                <ScalarProperty Name="SiparisTanimi" ColumnName="SiparisTanimi" />
+                <ScalarProperty Name="UrunKategoriID" ColumnName="UrunKategoriID" />
+                <ScalarProperty Name="MusteriID" ColumnName="MusteriID" />
+                <ScalarProperty Name="SiparisTutari" ColumnName="SiparisTutari" />
+                <ScalarProperty Name="BirimFiyat" ColumnName="BirimFiyat" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="SiparisTeklifDurumu" ColumnName="SiparisTeklifDurumu" />
+                <ScalarProperty Name="SiparisTarihi" ColumnName="SiparisTarihi" />
+                <ScalarProperty Name="OdemeTurID" ColumnName="OdemeTurID" />
+                <ScalarProperty Name="GuncellemeTarihi" ColumnName="GuncellemeTarihi" />
+                <ScalarProperty Name="GuncellemeYapanUserID" ColumnName="GuncellemeYapanUserID" />
+                <ScalarProperty Name="SiparisAktifMi" ColumnName="SiparisAktifMi" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SiparisMalzemeler">
+            <EntityTypeMapping TypeName="adenModel.SiparisMalzemeler">
+              <MappingFragment StoreEntitySet="SiparisMalzemeler">
+                <ScalarProperty Name="SiparisMalzemeID" ColumnName="SiparisMalzemeID" />
+                <ScalarProperty Name="SiparisID" ColumnName="SiparisID" />
+                <ScalarProperty Name="MalzemeID" ColumnName="MalzemeID" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="StoktanDus" ColumnName="StoktanDus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UrunKategori">
+            <EntityTypeMapping TypeName="adenModel.UrunKategori">
+              <MappingFragment StoreEntitySet="UrunKategori">
+                <ScalarProperty Name="UrunKategoriID" ColumnName="UrunKategoriID" />
+                <ScalarProperty Name="KategoriAdı" ColumnName="KategoriAdı" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="adenModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="UserAd" ColumnName="UserAd" />
+                <ScalarProperty Name="UserSoyAd" ColumnName="UserSoyAd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewGiderler">
+            <EntityTypeMapping TypeName="adenModel.ViewGiderler">
+              <MappingFragment StoreEntitySet="ViewGiderler">
+                <ScalarProperty Name="EklemeYapanUserID" ColumnName="EklemeYapanUserID" />
+                <ScalarProperty Name="OdemeTurID" ColumnName="OdemeTurID" />
+                <ScalarProperty Name="GiderTurID" ColumnName="GiderTurID" />
+                <ScalarProperty Name="GiderID" ColumnName="GiderID" />
+                <ScalarProperty Name="GiderAd" ColumnName="GiderAd" />
+                <ScalarProperty Name="Tutar" ColumnName="Tutar" />
+                <ScalarProperty Name="EkAcıklama" ColumnName="EkAcıklama" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="UserAd" ColumnName="UserAd" />
+                <ScalarProperty Name="KasayaYansıt" ColumnName="KasayaYansıt" />
+                <ScalarProperty Name="OdemeAdı" ColumnName="OdemeAdı" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewSiparis">
+            <EntityTypeMapping TypeName="adenModel.ViewSiparis">
+              <MappingFragment StoreEntitySet="ViewSiparis">
+                <ScalarProperty Name="UrunKategoriID" ColumnName="UrunKategoriID" />
+                <ScalarProperty Name="OdemeTurID" ColumnName="OdemeTurID" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="MusteriID" ColumnName="MusteriID" />
+                <ScalarProperty Name="MusteriAdSoyad" ColumnName="MusteriAdSoyad" />
+                <ScalarProperty Name="KategoriAdı" ColumnName="KategoriAdı" />
+                <ScalarProperty Name="SiparisTanimi" ColumnName="SiparisTanimi" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="BirimFiyat" ColumnName="BirimFiyat" />
+                <ScalarProperty Name="SiparisTutari" ColumnName="SiparisTutari" />
+                <ScalarProperty Name="SiparisTarihi" ColumnName="SiparisTarihi" />
+                <ScalarProperty Name="OdemeAdı" ColumnName="OdemeAdı" />
+                <ScalarProperty Name="GuncellemeTarihi" ColumnName="GuncellemeTarihi" />
+                <ScalarProperty Name="SiparisAktifMi" ColumnName="SiparisAktifMi" />
+                <ScalarProperty Name="SiparisTeklifDurumu" ColumnName="SiparisTeklifDurumu" />
+                <ScalarProperty Name="SiparisID" ColumnName="SiparisID" />
+                <ScalarProperty Name="UserAd" ColumnName="UserAd" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewSiparisMalzemeleri">
+            <EntityTypeMapping TypeName="adenModel.ViewSiparisMalzemeleri">
+              <MappingFragment StoreEntitySet="ViewSiparisMalzemeleri">
+                <ScalarProperty Name="MalzemeID" ColumnName="MalzemeID" />
+                <ScalarProperty Name="MalzemeAdı" ColumnName="MalzemeAdı" />
+                <ScalarProperty Name="AlısFiyati" ColumnName="AlısFiyati" />
+                <ScalarProperty Name="StokMiktari" ColumnName="StokMiktari" />
+                <ScalarProperty Name="SiparisID" ColumnName="SiparisID" />
+                <ScalarProperty Name="SiparisMalzemeID" ColumnName="SiparisMalzemeID" />
+                <ScalarProperty Name="Birim" ColumnName="Birim" />
+                <ScalarProperty Name="StoktanDus" ColumnName="StoktanDus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewLog">
+            <EntityTypeMapping TypeName="adenModel.ViewLog">
+              <MappingFragment StoreEntitySet="ViewLog">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="IslemTurID" ColumnName="IslemTurID" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="IslemAd" ColumnName="IslemAd" />
+                <ScalarProperty Name="LogAcıklama" ColumnName="LogAcıklama" />
+                <ScalarProperty Name="LogTarihi" ColumnName="LogTarihi" />
+                <ScalarProperty Name="LogID" ColumnName="LogID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewKasaBilgisi">
+            <EntityTypeMapping TypeName="adenModel.ViewKasaBilgisi">
+              <MappingFragment StoreEntitySet="ViewKasaBilgisi">
+                <ScalarProperty Name="KasaTipAdı" ColumnName="KasaTipAdı" />
+                <ScalarProperty Name="Tutar" ColumnName="Tutar" />
+                <ScalarProperty Name="KasaTipID" ColumnName="KasaTipID" />
+                <ScalarProperty Name="KasaID" ColumnName="KasaID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Gelirler">
+            <EntityTypeMapping TypeName="adenModel.Gelirler">
+              <MappingFragment StoreEntitySet="Gelirler">
+                <ScalarProperty Name="Son_Guncelleme_Yapan_User" ColumnName="Son_Guncelleme_Yapan_User" />
+                <ScalarProperty Name="GuncellemeTarihi" ColumnName="GuncellemeTarihi" />
+                <ScalarProperty Name="OdemeTarihi" ColumnName="OdemeTarihi" />
+                <ScalarProperty Name="KasayaYansit" ColumnName="KasayaYansit" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="EklemeYapanUserID" ColumnName="EklemeYapanUserID" />
+                <ScalarProperty Name="OdemeTurID" ColumnName="OdemeTurID" />
+                <ScalarProperty Name="Tutar" ColumnName="Tutar" />
+                <ScalarProperty Name="GelirID" ColumnName="GelirID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Taksit">
+            <EntityTypeMapping TypeName="adenModel.Taksit">
+              <MappingFragment StoreEntitySet="Taksit">
+                <ScalarProperty Name="TaksitDurumu" ColumnName="TaksitDurumu" />
+                <ScalarProperty Name="TaksitTutari" ColumnName="TaksitTutari" />
+                <ScalarProperty Name="TaksitVadeTarihi" ColumnName="TaksitVadeTarihi" />
+                <ScalarProperty Name="TaksitNo" ColumnName="TaksitNo" />
+                <ScalarProperty Name="TaksitPlanID" ColumnName="TaksitPlanID" />
+                <ScalarProperty Name="TaksitID" ColumnName="TaksitID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TaksitPlan">
+            <EntityTypeMapping TypeName="adenModel.TaksitPlan">
+              <MappingFragment StoreEntitySet="TaksitPlan">
+                <ScalarProperty Name="Durum" ColumnName="Durum" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="SiparisID" ColumnName="SiparisID" />
+                <ScalarProperty Name="ToplamTutar" ColumnName="ToplamTutar" />
+                <ScalarProperty Name="TaksitSayisi" ColumnName="TaksitSayisi" />
+                <ScalarProperty Name="TaksitPlanID" ColumnName="TaksitPlanID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ViewTaksitler">
+            <EntityTypeMapping TypeName="adenModel.ViewTaksitler">
+              <MappingFragment StoreEntitySet="ViewTaksitler">
+                <ScalarProperty Name="Expr7" ColumnName="Expr7" />
+                <ScalarProperty Name="Expr6" ColumnName="Expr6" />
+                <ScalarProperty Name="Expr5" ColumnName="Expr5" />
+                <ScalarProperty Name="Expr4" ColumnName="Expr4" />
+                <ScalarProperty Name="Expr3" ColumnName="Expr3" />
+                <ScalarProperty Name="Expr2" ColumnName="Expr2" />
+                <ScalarProperty Name="TaksitDurumu" ColumnName="TaksitDurumu" />
+                <ScalarProperty Name="TaksitTutari" ColumnName="TaksitTutari" />
+                <ScalarProperty Name="TaksitVadeTarihi" ColumnName="TaksitVadeTarihi" />
+                <ScalarProperty Name="TaksitNo" ColumnName="TaksitNo" />
+                <ScalarProperty Name="TaksitPlanID" ColumnName="TaksitPlanID" />
+                <ScalarProperty Name="TaksitID" ColumnName="TaksitID" />
+                <ScalarProperty Name="Durum" ColumnName="Durum" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="SiparisID" ColumnName="SiparisID" />
+                <ScalarProperty Name="ToplamTutar" ColumnName="ToplamTutar" />
+                <ScalarProperty Name="TaksitSayisi" ColumnName="TaksitSayisi" />
+                <ScalarProperty Name="Expr1" ColumnName="Expr1" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_Gelirler">
+            <EntityTypeMapping TypeName="adenModel.View_Gelirler">
+              <MappingFragment StoreEntitySet="View_Gelirler">
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="OdemeAdı" ColumnName="OdemeAdı" />
+                <ScalarProperty Name="KasayaYansit" ColumnName="KasayaYansit" />
+                <ScalarProperty Name="Aciklama" ColumnName="Aciklama" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="EklemeYapanUserID" ColumnName="EklemeYapanUserID" />
+                <ScalarProperty Name="OdemeTurID" ColumnName="OdemeTurID" />
+                <ScalarProperty Name="Tutar" ColumnName="Tutar" />
+                <ScalarProperty Name="GelirID" ColumnName="GelirID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

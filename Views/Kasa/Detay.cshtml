@@ -1,0 +1,110 @@
+@model coreAden.Models.Kasa
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Kasa Detayı - " + Model.KasaAdı;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>@Model.KasaAdı - Detay</h2>
+    <a href="@Url.Action("Index")" class="btn btn-secondary">Kasa Listesi</a>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header">
+                <h5>Kasa Bilgileri</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Kasa Adı:</strong> @Model.KasaAdı</p>
+                        <p><strong>Kasa Tipi:</strong> @Model.KasaTip.KasaTipAdı</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Bakiye:</strong> <span class="text-success h4">@Model.Bakiye?.ToString("C")</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5>Son İşlemler</h5>
+                @using (Html.BeginForm("FiltreleIslemler", "Kasa", FormMethod.Post))
+                {
+                    @Html.Hidden("kasaId", ViewBag.KasaId)
+                    <div class="d-flex gap-2">
+                        <select name="userId" class="form-select form-select-sm" style="width: auto;">
+                            <option value="">Tüm Kullanıcılar</option>
+                            @{
+                                var users = ViewBag.Users as List<coreAden.Models.Users>;
+                            }
+                            @if (users != null)
+                            {
+                                @foreach (var user in users)
+                                {
+                                    <option value="@user.UserID" @(ViewBag.SelectedUserId != null && ViewBag.SelectedUserId == user.UserID ? "selected" : "")>@user.UserAd</option>
+                                }
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-outline-primary">Filtrele</button>
+                    </div>
+                }
+            </div>
+            <div class="card-body">
+                                 @{
+                     var sonIslemler = ViewBag.SonIslemler as PagedList<coreAden.Models.ViewLog>;
+                 }
+                @if (sonIslemler != null && sonIslemler.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Tarih</th>
+                                    <th>Kullanıcı</th>
+                                    <th>Açıklama</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var islem in sonIslemler)
+                                {
+                                    <tr>
+                                        <td>@islem.LogTarihi.ToString("dd.MM.yyyy HH:mm")</td>
+                                        <td>@islem.UserAd</td>
+                                        <td>@islem.LogAcıklama</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-muted">Bu kasa için henüz işlem yapılmamış.</p>
+                }
+                
+                @if (sonIslemler != null && sonIslemler.PageCount > 1)
+                {
+                    <div class="d-flex justify-content-center mt-3">
+                        @Html.PagedListPager(sonIslemler, page => Url.Action("Detay", new { id = ViewBag.KasaId, userId = ViewBag.SelectedUserId, page = page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header">
+                <h5>Hızlı İşlemler</h5>
+            </div>
+            <div class="card-body">
+                <a href="@Url.Action("Transfer")" class="btn btn-primary w-100 mb-2">Para Transferi</a>
+                <a href="@Url.Action("Index", "Log")" class="btn btn-outline-info w-100">Tüm Logları Görüntüle</a>
+            </div>
+        </div>
+    </div>
+</div>

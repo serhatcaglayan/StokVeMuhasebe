@@ -1,0 +1,89 @@
+﻿
+@model PagedList.IPagedList<coreAden.Models.ViewSiparis>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    table {
+        font-size: 12px; /* Yazı boyutunu küçült */
+    }
+
+        table th,
+        table td {
+            padding: 4px 8px; /* Hücreleri biraz daraltmak için */
+        }
+
+    body {
+        font-size: 13px; /* Sayfanın genel yazı boyutu */
+    }
+</style>
+
+
+<p class="text-danger">Sadece Teklifler Listelenebilir !</p>
+<!-- Flitreleme -->
+
+<form method="get" class="mb-2">
+    <div class="row g-2">
+
+
+        <div class="input-group col">
+            <input type="text" class="form-control" name="q" placeholder="Müşteri ara" value="@Request["q"]" />
+            <button class="btn btn-primary">Ara</button>
+        </div>
+
+
+        @*<div class="col-auto">
+           
+            <a class="btn btn-success" href="@Url.Action("Index", new {q = Request["q"]  })">Filitrele</a>
+        </div>*@
+    </div>
+</form>
+
+<!-- Listeleme  -->
+<form action="/Teklif/ExportPdf" method="post">
+    <table>
+        <thead>
+            <tr>
+                <th>Select</th>
+                <th>Musteri</th>
+
+                <th>Ürün Kategorisi</th>
+                <th>Sipariş Tanımı</th>
+                <th>Birim</th>
+                <th>Birim Fiyatı</th>
+                <th>Sipariş Tutarı</th>
+                <th>Teklif Durumu</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var x in Model)
+            {
+                <tr>
+                    <td><input type="checkbox" name="selectedIds" value="@x.SiparisID"/></td>
+                    
+                    <td>@x.MusteriAdSoyad</td>
+                    <td>@x.KategoriAdı </td>
+                    <td>@x.SiparisTanimi</td>
+                    <td>@x.Birim</td>
+                    <td>@x.BirimFiyat ₺</td>
+                    <td>@x.SiparisTutari ₺</td>
+                    <td>@(x.SiparisTeklifDurumu == false ? "Teklif" : "Siparis")</td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+    <button type="submit" class="btn btn-primary">PDF Oluştur</button>
+</form>
+
+
+
+    <div>
+        @Html.PagedListPager(Model, page => Url.Action("TümSiparisListesi", "Siparis", new { page }))
+
+    </div>

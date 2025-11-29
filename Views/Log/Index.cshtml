@@ -1,0 +1,143 @@
+@model PagedList.IPagedList<coreAden.Models.ViewLog>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Sistem Logları";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>Sistem Logları</h2>
+         <a href="@Url.Action("ExportExcel", new { 
+         logTurId = ViewBag.SelectedLogTurId, 
+         userId = ViewBag.SelectedUserId, 
+         baslangic = ViewBag.Baslangic, 
+         bitis = ViewBag.Bitis 
+     })" class="btn btn-success">CSV İndir</a>
+</div>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card mb-4">
+    <div class="card-header">
+        <h5>Filtreler</h5>
+    </div>
+    <div class="card-body">
+        @using (Html.BeginForm("Filtrele", "Log", FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="logTurId" class="form-label">İşlem Türü</label>
+                        <select name="logTurId" id="logTurId" class="form-select">
+                            <option value="">Tümü</option>
+                            @{
+                                var logIslemTurleri = ViewBag.LogIslemTurleri as List<coreAden.Models.LogIslemTur>;
+                            }
+                            @if (logIslemTurleri != null)
+                            {
+                                foreach (var tur in logIslemTurleri)
+                                {
+                                    <option value="@tur.LogIslemTurID" @(ViewBag.SelectedLogTurId != null && ViewBag.SelectedLogTurId == tur.LogIslemTurID ? "selected" : "")>@tur.IslemAd</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="mb-3">
+                        <label for="userId" class="form-label">Kullanıcı</label>
+                        <select name="userId" id="userId" class="form-select">
+                            <option value="">Tümü</option>
+                            @if (ViewBag.Users != null)
+                            {
+                                foreach (var user in ViewBag.Users)
+                                {
+                                    <option value="@user.UserID" @(ViewBag.SelectedUserId != null && ViewBag.SelectedUserId == user.UserID ? "selected" : "")>@user.UserAd</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <label for="baslangic" class="form-label">Başlangıç</label>
+                        <input type="date" name="baslangic" id="baslangic" class="form-control" value="@(ViewBag.Baslangic?.ToString("yyyy-MM-dd"))" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <label for="bitis" class="form-label">Bitiş</label>
+                        <input type="date" name="bitis" id="bitis" class="form-control" value="@(ViewBag.Bitis?.ToString("yyyy-MM-dd"))" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="mb-3">
+                        <label class="form-label">&nbsp;</label>
+                        <button type="submit" class="btn btn-primary d-block w-100">Filtrele</button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Log Kayıtları (@Model.TotalItemCount kayıt)</h5>
+    </div>
+    <div class="card-body">
+        @if (Model.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Tarih</th>
+                            <th>İşlem Türü</th>
+                            <th>Kullanıcı</th>
+                            <th>Açıklama</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var log in Model)
+                        {
+                            <tr>
+                                <td>@(log.LogTarihi.ToString("dd.MM.yyyy"))</td>
+                                <td>
+                                    <span class="badge bg-info">@log.IslemAd</span>
+                                </td>
+                                <td>@log.username</td>
+                                <td>@log.LogAcıklama</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            if (Model.PageCount > 1)
+            {
+                <div class="d-flex justify-content-center">
+                    @Html.PagedListPager(Model, page => Url.Action("Index", new { 
+                        page = page,
+                        logTurId = ViewBag.SelectedLogTurId,
+                        userId = ViewBag.SelectedUserId,
+                        baslangic = ViewBag.Baslangic,
+                        bitis = ViewBag.Bitis
+                    }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+                </div>
+            }
+        }
+        else
+        {
+            <div class="text-center py-4">
+                <p class="text-muted">Filtre kriterlerinize uygun log kaydı bulunamadı.</p>
+            </div>
+        }
+    </div>
+</div>

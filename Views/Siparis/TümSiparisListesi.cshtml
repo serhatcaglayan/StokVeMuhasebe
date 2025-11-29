@@ -1,0 +1,109 @@
+﻿
+@model PagedList.IPagedList<coreAden.Models.ViewSiparis>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "TümSiparisListesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table {
+        font-size: 12px; /* Yazı boyutunu küçült */
+    }
+
+        table th,
+        table td {
+            padding: 4px 8px; /* Hücreleri biraz daraltmak için */
+        }
+
+    body {
+        font-size: 13px; /* Sayfanın genel yazı boyutu */
+    }
+</style>
+
+
+
+
+
+@*<form method="get" class="mb-2">
+        <div class="input-group">
+            <input type="text" class="form-control" name="q" placeholder="Müşteri ara" value="@Request["q"]" />
+            <button class="btn btn-primary">Ara</button>
+        </div>
+
+    </form>*@
+
+
+
+<!-- Flitreleme -->
+
+<form method="get" class="mb-2">
+    <div class="row g-2">
+        <div class="col">
+            <input type="date" name="baslangic" class="form-control" value="@Request["baslangic"]" />
+        </div>
+        <div class="col">
+            <input type="date" name="bitis" class="form-control" value="@Request["bitis"]" />
+        </div>
+        <div class="col ">
+            <select id="SprsTklf" name="SprsTklf" class="form-select">
+                <option value="">Sipariş Teklif Durumu</option>
+                <option value="true">Siparişler</option>
+                <option value="false">Teklifler</option>
+            </select>
+        </div>
+        <div class="input-group col">
+            <input type="text" class="form-control" name="q" placeholder="Müşteri ara" value="@Request["q"]" />
+            @*<button class="btn btn-primary">Ara</button>*@
+        </div>
+
+
+        <div class="col-auto">
+            <button class="btn btn-primary">Filtrele</button>
+            <a class="btn btn-success" href="@Url.Action("ExportTumSiparisToExcel", new { baslangic = Request["baslangic"], bitis = Request["bitis"] , q = Request["q"] , SprsTklf = Request["SprsTklf"] })">CSV İndir</a>
+        </div>
+    </div>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Müşteri Bilgisi</th>
+            <th>Ürün Kategorisi</th>
+            <th>Sipariş Tanımı</th>
+            <th>Birim</th>
+            <th>Birim Fiyatı</th>
+            <th>Sipariş Tutarı</th>
+            <th>TARİH</th>
+
+            <th>Sipariş / Teklif</th>
+            <th>Detay</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>@x.SiparisID</td>
+                <td>@x.MusteriAdSoyad</td>
+                <td>@x.KategoriAdı </td>
+                <td>@x.SiparisTanimi</td>
+                <td>@x.Birim</td>
+                <td>@x.BirimFiyat ₺</td>
+                <td>@x.SiparisTutari ₺</td>
+                <td>@x.SiparisTarihi.ToShortDateString()</td>
+                <td>@(x.SiparisTeklifDurumu == false ? "Teklif" : (x.SiparisTeklifDurumu == true ? "Sipariş" : "-"))</td>
+                <td>
+                    <a class="btn btn-info btn-sm" href="@Url.Action("Detay", "Siparis", new { id = x.SiparisID })">Git</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("TümSiparisListesi", "Siparis", new { page }))
+
+</div>
+

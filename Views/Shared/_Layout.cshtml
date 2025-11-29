@@ -1,0 +1,140 @@
+﻿
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/myCSS.css" rel="stylesheet" />
+    
+    <meta charset="UTF-8">
+    <title>Layout Örneği</title>
+    <style>
+        table {
+            font-size: 12px; /* Yazı boyutunu küçült */
+        }
+
+            table th,
+            table td {
+                padding: 4px 8px; /* Hücreleri biraz daraltmak için */
+            }
+
+        body {
+            font-size: 13px; /* Sayfanın genel yazı boyutu */
+        }
+       
+    </style>
+
+</head>
+<body>
+
+    <!-- Header -->
+    <header class=" text-white text-center py-1 mb-1" style="background-color : #333">
+        <h1 class="mb-0">Aden Ahşap</h1>
+    </header>
+
+    <!-- Ana içerik + yan menü -->
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- Sidebar -->
+            <nav class="col-md-3 col-lg-2 d-md-block bg-light sidebar py-4">
+                <ul class="nav flex-column">
+                    <li class="nav-item mb-2">
+                        <a class="nav-link active" href="/Home/Index">🏠 Anasayfa</a>
+                    </li>
+                    <li class="nav-item mb-2">
+                        <a class="nav-link" href="/Musteri/getMembersList">👤 Müşteri İşlemleri</a>
+                    </li>
+                    <li class="nav-item dropdown mb-2">
+                        <a class="nav-link dropdown-toggle" href="#" id="siparisDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            🛠 Sipariş / Teklif İşlemleri
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="siparisDropdown">
+                            <li><a class="dropdown-item" href="/Siparis/TümSiparisListesi">Tüm Veri Listesi</a></li>
+                            <li><a class="dropdown-item" href="/Reports/MusteriSiparisOzeti">Müşterinin Onaylanmış Sipariş Bilgileri</a></li>
+                            <li><a class="dropdown-item" href="/Reports/MusteriTeklifOzeti">Müşterinin Teklif Bilgileri</a></li>
+                            <li><a class="dropdown-item" href="/Siparis/Create">Teklif Oluştur</a></li>
+                            <li><a class="dropdown-item" href="/Teklif/Index">Teklif Yazdır</a></li>
+
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown mb-2">
+                        <a class="nav-link dropdown-toggle" href="#" id="GelirGiderDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            📊  Gelir - Gider İşlemleri
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="GelirGiderDropdown">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Gider/giderListesi">📞 Gider İşlemleri </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Gelir/gelirListesi">📞 Gelir İşlemleri </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown mb-2">
+                        <a class="nav-link dropdown-toggle" href="#" id="StokDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            🛠  Stok - Ürün İşlemleri
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="StokDropdown">
+
+                            <li class="nav-item mb-2">
+                                <a class="nav-link" href="/Stock/getStockList">🛠 Stok İşlemleri</a>
+                            </li>
+
+                            <li class="nav-item mb-2">
+                                <a class="nav-link" href="/UrunKategori/UrunKategoriListesi">🛠 Ürün Tipi İşlemleri</a>
+                            </li>
+
+
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown mb-2">
+                        <a class="nav-link dropdown-toggle" href="#" id="RaporDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            📊 Raporlar
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="RaporDropdown">
+                           <li>
+
+                           </li>
+                        </ul>
+                    </li>
+
+
+                 
+
+                    <li class="nav-item dropdown mb-2">
+                        <a class="nav-link dropdown-toggle" href="#" id="kasaDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            💰 Kasa Yönetimi
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="kasaDropdown">
+                            <li><a class="dropdown-item" href="/Kasa/Index">Kasa Bilgisi</a></li>
+                            <li><a class="dropdown-item" href="/Kasa/TransferEkranı">Transfer İşlemleri</a></li>
+
+                        </ul>
+                    </li>                
+                    <li class="nav-item mb-2">
+                        <a class="nav-link" href="/Log/Index">📋 Sistem Logları</a>
+                    </li>
+                </ul>
+            </nav>
+            
+
+            <!-- İçerik -->
+            <main class="col-md-9 col-lg-10 px-4 py-3">
+            
+                @RenderBody()
+            </main>
+
+        </div>
+    </div>
+
+    <!-- jQuery and Bootstrap JS -->
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

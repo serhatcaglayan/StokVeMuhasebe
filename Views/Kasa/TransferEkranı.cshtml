@@ -1,0 +1,159 @@
+﻿@model IEnumerable<coreAden.Models.ViewKasaBilgisi>
+@{
+    ViewBag.Title = "Kasa Transfer Ekranı";
+}
+
+<div class="container">
+    <h2 class="mb-4">Kasa Transfer Ekranı</h2>
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger">@TempData["ErrorMessage"]</div>
+    }
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    <div class="row">
+        <!-- Kasa Listesi -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">Kasa Listesi ve Bakiyeleri</div>
+                <div class="card-body p-0">
+                    <table class="table table-striped table-hover mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Kasa Adı</th>
+                                <th>Bakiye</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model?.Any() == true)
+                            {
+                                foreach (var kasa in Model)
+                                {
+                                    <tr>
+                                        <td>@kasa.KasaID</td>
+                                        <td>@kasa.KasaTipAdı</td>
+                                        <td>@(kasa.Tutar?.ToString("C"))</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="3" class="text-center text-muted">Kasa bulunamadı</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Transfer Formu -->
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">Kasa Arası Transfer</div>
+                <div class="card-body">
+                    @using (Html.BeginForm("TransferYap", "Kasa", FormMethod.Post))
+                    {
+                        <div class="mb-3">
+                            <label class="form-label">Gönderici Kasa</label>
+                            <select class="form-select" id="gondericiID" name="gondericiID" required>
+                                <option value="">Seçiniz</option>
+                                @foreach (var k in Model.Where(x => x.Tutar > 0))
+                                {
+                                    <option value="@k.KasaID">@k.KasaTipAdı - @(k.Tutar?.ToString("C"))</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Alıcı Kasa</label>
+                            <select class="form-select" id="aliciID" name="aliciID" required>
+                                <option value="">Seçiniz</option>
+                                @foreach (var k in Model)
+                                {
+                                    <option value="@k.KasaID">@k.KasaTipAdı - @(k.Tutar?.ToString("C"))</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tutar (₺)</label>
+                            <input type="number" class="form-control" id="tutar" name="tutar" step="0.01" min="0.01" required />
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" id="onay" required>
+                            <label class="form-check-label" for="onay">Transferi onaylıyorum</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-exchange-alt me-2"></i>Transfer Yap
+                        </button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Transfer Geçmişi -->
+    <div class="card mt-4">
+        <div class="card-header">Son Transferler</div>
+        <div class="card-body">
+            @if (ViewBag.SonTransferler != null )
+            {
+                <table class="table table-sm table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th>Açıklama</th>
+                           
+                            <th>Güncelleme Yapan User </th>
+                            <th>Tarih</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var log in ViewBag.SonTransferler)
+                        {
+                            <tr>
+                                <td>@log.LogAcıklama</td>
+                                
+                                <td>@log.username</td>
+                                <td>@log.LogTarihi.ToString("dd.MM.yyyy HH:mm")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <div class="text-muted text-center">
+                    <i class="fas fa-info-circle me-2"></i>
+                    Henüz transfer yapılmamış.
+                </div>
+            }
+        </div>
+    </div>
+
+
+    @section Scripts {
+        <script>
+            // Gönderici ve alıcı aynı olmasın
+            const gonderici = document.getElementById('gondericiID');
+            const alici = document.getElementById('aliciID');
+
+            gonderici?.addEventListener('change', function () {
+                const val = this.value;
+                for (let opt of alici.options) {
+                    opt.disabled = (opt.value === val);
+                }
+            });
+
+            // Negatif tutar engelle
+            document.getElementById('tutar')?.addEventListener('input', function () {
+                if (this.value < 0) this.value = '';
+            });
+        </script>
+    }

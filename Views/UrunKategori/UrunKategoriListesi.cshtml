@@ -1,0 +1,67 @@
+﻿@model PagedList.IPagedList<coreAden.Models.UrunKategori>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "UrunKategoriListesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Buton: Modal'ı açar -->
+<div class="container-fluid d-flex justify-content-center my-3">
+    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#kategoriModal">
+        Ürün Tipi Ekle
+    </button>
+</div>
+
+<!-- Modal Yapısı -->
+<div class="modal fade" id="kategoriModal" tabindex="-1" aria-labelledby="kategoriModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/UrunKategori/KategoriEkle">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="kategoriModalLabel">Ürün Tipi Ekle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Ad:</label>
+                        <input type="text" name="KategoriAdı" class="form-control" required />
+                    </div>
+                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>AD</th>
+            <th>Sil</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>@x.UrunKategoriID</td>
+                <td>@x.KategoriAdı</td>
+                <th>
+                    <a class="btn btn-danger"
+                       href="/UrunKategori/KategoriSil/@x.UrunKategoriID">Sil</a>
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("UrunKategoriListesi", "UrunKategori", new { page }))
+
+</div>
+

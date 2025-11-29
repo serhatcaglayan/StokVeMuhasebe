@@ -1,0 +1,159 @@
+@model PagedList.IPagedList<coreAden.Models.ViewKasaBilgisi>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "Kasa Yönetimi";
+}
+
+<style>
+    body {
+        background: #f6f8fa;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+        }
+
+    .card-header {
+        border-bottom: none;
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        font-weight: 600;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        text-align: center;
+        font-size: 1.2rem;
+        letter-spacing: 0.3px;
+    }
+
+    .badge.bg-secondary {
+        background-color: rgba(255, 255, 255, 0.25) !important;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 8px 15px;
+        border-radius: 30px;
+    }
+
+    h6.text-muted {
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    .amount {
+        font-size: 1.7rem;
+        font-weight: 600;
+        color: #28a745 !important;
+    }
+
+        .amount small {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+    .btn-outline-primary {
+        border-radius: 30px;
+        padding: 6px 18px;
+        transition: all 0.2s ease;
+    }
+
+        .btn-outline-primary:hover {
+            background-color: #007bff;
+            color: white;
+            transform: scale(1.05);
+        }
+
+    .card-footer {
+        background: #f9fafb;
+        border-top: 1px solid #eee;
+        text-align: center;
+    }
+
+    .pagination {
+        margin-top: 30px;
+    }
+
+        .pagination li a,
+        .pagination li span {
+            border-radius: 50% !important;
+            margin: 0 3px;
+        }
+
+    /* Total kasa kartı */
+    .total-card .card-header {
+        background: linear-gradient(135deg, #28a745, #1e7e34);
+    }
+
+    .total-card h4 {
+        font-size: 1.8rem;
+    }
+</style>
+
+@* Total Kasa Bilgisi *@
+<div class="d-flex justify-content-center pb-4" style="min-height: 30vh;">
+    <div class="col-10 col-md-6">
+        <div class="card h-100 total-card">
+            <div class="card-header d-flex justify-content-center align-items-center text-center">
+                <span class="badge bg-secondary">Toplam Kasa</span>
+            </div>
+            <div class="card-body text-center">
+                <div class="mb-3">
+                    <h6 class="text-muted">Bakiye</h6>
+
+                    @{
+                        var totalStr = ViewBag.total.ToString("N2"); // örn: 1.234,56
+                        var totalParts = totalStr.Split(',');
+                        var totalWhole = totalParts[0];
+                        var totalFractional = totalParts.Length > 1 ? totalParts[1] : "00";
+                    }
+
+                    <h4 class="amount">@totalWhole<small>,@totalFractional ₺</small></h4>
+                </div>
+            </div>
+            <div class="card-footer"></div>
+        </div>
+    </div>
+</div>
+
+@* Kasa Listesi *@
+<div class="container row">
+    @foreach (var kasa in Model)
+    {
+        var tutarStr = kasa.Tutar?.ToString("N2") ?? "0,00";
+        var tutarParts = tutarStr.Split(',');
+        var whole = tutarParts[0];
+        var fractional = tutarParts.Length > 1 ? tutarParts[1] : "00";
+
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-header">
+                    <span class="badge bg-secondary">@kasa.KasaTipAdı</span>
+                </div>
+                <div class="card-body text-center">
+                    <div class="mb-3">
+                        <h6 class="text-muted">Bakiye</h6>
+                        <h4 class="amount">@whole<small>,@fractional ₺</small></h4>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a href="@Url.Action("Detay", new { id = kasa.KasaID })" class="btn btn-outline-primary btn-sm">Detay</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@if (Model.PageCount > 1)
+{
+    <div class="d-flex justify-content-center">
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    </div>
+}

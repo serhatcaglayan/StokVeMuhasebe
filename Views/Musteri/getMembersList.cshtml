@@ -1,0 +1,114 @@
+﻿@model PagedList.IPagedList<coreAden.Models.Musteriler>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "getMembersList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link href="~/Content/myCSS.css" rel="stylesheet" />
+</head>
+
+
+<!-- Buton: Modal'ı açar -->
+<div class="container-fluid d-flex justify-content-center my-3">
+    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#musteriModal">
+        Müşteri Kaydı Oluştur
+    </button>
+</div>
+
+<!-- Flitreleme -->
+
+<form method="get" class="mb-2">
+    <div class="row g-2">
+       
+   
+        <div class="input-group col">
+            <input type="text" class="form-control" name="q" placeholder="Müşteri ara" value="@Request["q"]" />
+           <button class="btn btn-primary">Ara</button>
+        </div>
+
+
+       
+    </div>
+</form>
+
+
+
+<!-- Modal Yapısı -->
+<div class="modal fade" id="musteriModal" tabindex="-1" aria-labelledby="musteriModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/Musteri/AddMember">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="musteriModalLabel">Yeni Müşteri Ekle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label>Ad:</label>
+                        <input type="text" name="MusteriAd" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label>Soyad:</label>
+                        <input type="text" name="MusteriSoyad" class="form-control" required />
+                    </div>
+                    <div class="mb-3">
+                        <label>Telefon:</label>
+                        <input type="text" name="Telefon" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Adres:</label>
+                        <input type="text" name="Adres" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label>Açıklama:</label>
+                        <textarea name="Acıklama" class="form-control"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>AD</th>
+            <th>SOYAD</th>
+            <th>TELEFON</th>
+            <th>ADRES</th>
+            <th>AÇIKLAMA</th>
+            <th>KAYIT TARİHİ</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>@x.MusteriID</td>
+                <td>@x.MusteriAd</td>
+                <td>@x.MusteriSoyad</td>
+                <td>@x.Telefon</td>
+                <td>@x.Adres</td>
+                <td>@x.Acıklama</td>
+                <td>@x.KayıtTarihi.ToShortDateString()</td>
+                <th>
+                    <a class="btn btn-danger"
+                       href="/Musteri/deleteMember/@x.MusteriID">Sil</a>
+                </th>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("getMembersList", "Musteri", new { page }))
+
+</div>

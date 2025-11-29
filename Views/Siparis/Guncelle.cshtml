@@ -1,0 +1,58 @@
+﻿@model coreAden.Models.Siparisler
+
+<h2>Sipariş Güncelle</h2>
+
+@using (Html.BeginForm("Guncelle", "Siparis", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.SiparisID)
+
+<div class="form-group">
+    @Html.HiddenFor(model => model.MusteriID)
+
+</div>
+
+    <div class="form-group p-2">
+        @Html.LabelFor(model => model.UrunKategoriID, "Kategori")
+        @Html.DropDownListFor(model => model.UrunKategoriID, (List<SelectListItem>)ViewBag.Kategoriler, "Seçiniz", new { @class = "form-control" })
+    </div>
+
+
+    <div class="form-group p-2">
+        @Html.LabelFor(model => model.SiparisTanimi, "Tanım")
+        @Html.TextBoxFor(model => model.SiparisTanimi, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group p-2">
+        @Html.LabelFor(model => model.Birim, "Birim")
+        @Html.TextBoxFor(model => model.Birim, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group p-2">
+        @Html.LabelFor(model => model.BirimFiyat, "Birim Fiyat")
+        @Html.TextBoxFor(model => model.BirimFiyat, new { @class = "form-control", type = "number", step = "0.01" })
+    </div>
+
+   
+
+    <div class="form-group p-2">
+        @Html.LabelFor(model => model.SiparisTeklifDurumu, "Sipariş Durumu")
+        @Html.DropDownListFor(model => model.SiparisTeklifDurumu, new List<SelectListItem>
+        {
+            new SelectListItem { Text = "Teklif Aşamasında", Value = "false" , Selected = true},
+            new SelectListItem { Text = "Sipariş Aşamasında", Value = "true" }
+        }, "Durum Seçiniz", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group p-2">
+        @Html.LabelFor(model => model.OdemeTurID, "Ödeme Tipi")
+        @Html.DropDownListFor(model => model.OdemeTurID, (List<SelectListItem>)ViewBag.OdemeTurler, "Seçiniz", new { @class = "form-control" })
+    </div>
+
+    <div class="form-group p-2">
+        @Html.LabelFor(model => model.SiparisAktifMi, "Aktif mi?")
+        @Html.CheckBoxFor(model => model.SiparisAktifMi)
+    </div>
+
+    <button type="submit" class="btn btn-success">Kaydet</button>
+    <a href="@Url.Action("TümSiparisListesi", "Siparis")" class="btn btn-secondary">İptal</a>
+}

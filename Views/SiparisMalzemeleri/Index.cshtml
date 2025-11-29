@@ -1,0 +1,218 @@
+﻿@model IEnumerable<coreAden.Models.ViewSiparisMalzemeleri>
+@{
+    ViewBag.Title = "Sipariş Malzemeleri";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int siparisId = ViewBag.SiparisID;
+}
+
+<!-- Hata mesajları -->
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<!-- Başarı mesajları -->
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+<div class="row">
+
+    <div class="col-6">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#malzemeEkleModal">
+            Malzeme Ekle
+        </button>
+
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#malzemeEkleModal">
+            Paket Malzeme Ekle
+        </button>
+
+        <a href="@Url.Action("Detay", "Siparis", new { id = siparisId })" class="btn btn-secondary">Siparişe Dön</a>
+
+    </div>
+
+   
+
+
+
+    <div class="col-6 text-end">
+        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#malzemeEkleModal">
+            Toplam Tutar : @ViewBag.ToplamTutar ₺
+        </button>
+
+    </div>
+
+</div>
+
+<!-- Flitreleme -->
+
+<form method="get" class="mb-2 py-3">
+    <div class="row g-2">
+
+        <div class="col ">
+            <select id="stokFlag" name="stokFlag" class="form-select">
+                <option value="">Stoktan Düştü Mü</option>
+                <option value="true">Evet</option>
+                <option value="izm">Hayır</option>
+            </select>
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" name="q" placeholder="Malzeme ara" value="@Request["q"]" />
+        </div>
+        
+
+        <div class="col-auto">
+            <button class="btn btn-primary">Filtrele</button>
+            <a class="btn btn-success"
+               href="@Url.Action("ExportTumSiparisCsv", new { q = Request["q"], stokFlag = Request["stokFlag"] })">
+                CSV İndir
+            </a>
+        </div>
+    </div>
+</form>
+
+
+
+<!-- Liste -->
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Malzeme Adı</th>
+            <th>Kullanılacak Birim</th>
+            <th>Birim Fiyatı</th>
+
+            <th>Toplam Malzeme Maliyeti</th>
+            <th>Stoktan Düştü Mü ?</th>
+            <th>Sil</th>
+
+
+        </tr>
+    </thead>
+    <tbody>
+
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>@x.MalzemeAdı</td>
+                <td>@x.Birim</td>
+                <td>@x.AlısFiyati</td>
+                <td>@(x.AlısFiyati * x.Birim) ₺</td>
+                <td>@(x.StoktanDus ? "Evet" : "Hayır")</td>
+
+                <td colspan="2">
+                    <button type="button" class="btn btn-sm btn-danger"
+                            onclick="silmeOnayi(@x.SiparisMalzemeID, @x.MalzemeID, @x.Birim, @x.StoktanDus.ToString().ToLower())">
+                        Sil
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Malzeme Ekleme Modal -->
+<div class="modal fade" id="malzemeEkleModal" tabindex="-1" aria-labelledby="malzemeEkleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="malzemeEkleModalLabel">Sipariş Malzemesi Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form action="@Url.Action("Ekle", "SiparisMalzemeleri", new { id = siparisId })" method="post">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="MalzemeID" class="form-label">Malzeme</label>
+                        @Html.DropDownList("MalzemeID", (List<SelectListItem>)ViewBag.Malzemeler, "Malzeme Seçiniz", new { @class = "form-select", required = "required" })
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Birim" class="form-label">Kullanılacak Birim</label>
+                        <input type="number" class="form-control" id="Birim" name="Birim" step="0.01" min="0">
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="StoktanDus" name="StoktanDus" value="true">
+                            <label class="form-check-label" for="StoktanDus">
+                                Stoktan Düşülsün
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                    <button type="submit" class="btn btn-primary">Kaydet</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Silme Onay Modal -->
+<div class="modal fade" id="silmeOnayModal" tabindex="-1" aria-labelledby="silmeOnayModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="silmeOnayModalLabel">Malzeme Silme Onayı</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bu malzemeyi silmek istediğinizden emin misiniz?</p>
+                <div id="stokBilgisi" style="display: none;">
+                    <div class="alert alert-info">
+                        <strong>Stok Bilgisi:</strong> Bu malzeme stoktan düşülmüş.
+                        Silme işleminde stoğa geri eklenmesini istiyor musunuz?
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" id="stoklaBirlikteSil">Stoktan Ekle ve Sil</button>
+                <button type="button" class="btn btn-warning" id="sadeceSil">Sadece Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function silmeOnayi(siparisMalzemeID, malzemeID, birim, stoktanDus) {
+    // Modal'ı göster
+    var modal = new bootstrap.Modal(document.getElementById('silmeOnayModal'));
+    modal.show();
+
+    // Stok bilgisini göster/gizle
+    var stokBilgisi = document.getElementById('stokBilgisi');
+    var stoklaBirlikteSilBtn = document.getElementById('stoklaBirlikteSil');
+    var sadeceSilBtn = document.getElementById('sadeceSil');
+
+    if (stoktanDus === true) {
+        stokBilgisi.style.display = 'block';
+        stoklaBirlikteSilBtn.style.display = 'inline-block';
+        sadeceSilBtn.style.display = 'inline-block';
+    } else {
+        stokBilgisi.style.display = 'none';
+        stoklaBirlikteSilBtn.style.display = 'none';
+        sadeceSilBtn.style.display = 'inline-block';
+    }
+
+    // Stoktan ekle ve silme
+    stoklaBirlikteSilBtn.onclick = function() {
+        window.location.href = '@Url.Action("Sil", "SiparisMalzemeleri")?siparisMalzemeID=' + siparisMalzemeID + '&stoktanEkle=true';
+        modal.hide();
+    };
+
+    // Sadece silme
+    sadeceSilBtn.onclick = function() {
+        window.location.href = '@Url.Action("Sil", "SiparisMalzemeleri")?siparisMalzemeID=' + siparisMalzemeID + '&stoktanEkle=false';
+        modal.hide();
+    };
+}
+</script>

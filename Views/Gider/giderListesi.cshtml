@@ -1,0 +1,215 @@
+﻿@model PagedList.IPagedList<coreAden.Models.ViewGiderler>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "giderListesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<!-- Hata mesajları -->
+
+@if (TempData["ErrorGider"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["ErrorGider"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+<!-- Başarı mesajları -->
+@if (TempData["SuccessGider"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["SuccessGider"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+
+
+<!-- Filtreler -->
+
+<form method="get" class="mb-2">
+    <div class="row g-2">
+
+        <div class="col">
+            <label>Başlangıç Tarihi</label>
+            <input type="date" name="baslangic" class="form-control" value="@Request["baslangic"]" />
+
+        </div>
+        <div class="col">
+            <label>Bitiş Tarihi</label>
+            <input type="date" name="bitis" class="form-control" value="@Request["bitis"]" />
+        </div>
+
+        <div class="col ">
+            <label>Kasaya Yansıtıldı Mı</label>
+            <select id="kasayaYansitildiMi" name="kasayaYansitildiMi" class="form-select">
+                <option value="">Tümü</option>
+                <option value="true">Evet</option>
+                <option value="false">Hayır</option>
+            </select>
+        </div>
+
+        <div class="col">
+            <label>Gider Türü</label>
+            @Html.DropDownList("giderTurId", (List<SelectListItem>)ViewBag.GiderTurler, "Tümü", new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-2">
+            <label>İşlem Sahibi</label>
+            @Html.DropDownList("userId", (List<SelectListItem>)ViewBag.Users, "Tümü", new { @class = "form-control" })
+        </div>
+
+        <div class="col-md-2">
+            <label>Ödeme Tipi</label>
+            @Html.DropDownList("odemeTurId", (List<SelectListItem>)ViewBag.OdemeTurler, "Tümü", new { @class = "form-control" })
+        </div>
+
+        <div class="col-auto">
+            <button class="btn btn-primary my-3">Filtrele</button>
+            <a class="btn btn-success" href="@Url.Action("ExportGiderCsv", new { baslangic = Request["baslangic"], bitis = Request["bitis"] ,  kasayaYansitildiMi = Request["kasayaYansitildiMi"] ,giderTurId = Request["giderTurId"] , userId = Request["userId"], odemeTurId = Request["odemeTurId"] })">CSV İndir</a>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+
+
+
+
+<!-- Gider Ekle Modal -->
+<div class="modal fade" id="giderEkleModal" tabindex="-1" aria-labelledby="giderEkleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="/Gider/Ekle">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="giderEkleModalLabel">Yeni Gider Ekle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label>Tutar</label>
+                        <input type="number" step="0.01" class="form-control " name="Tutar" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Gider Türü</label>
+                        @Html.DropDownList("GiderTurID", (List<SelectListItem>)ViewBag.GiderTurler, "Seçiniz", new { @class = "form-control" , required = "required" })
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Ödeme Türü</label>
+                        @Html.DropDownList("OdemeTurID", (List<SelectListItem>)ViewBag.OdemeTurler, "Seçiniz", new { @class = "form-control" , required = "required" })
+                    </div>
+
+
+
+                    <div class="mb-3">
+                        <label>Ek Açıklama</label>
+                        <textarea class="form-control" name="EkAcıklama" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input type="checkbox" class="form-check-input" id="kasayaYansitCheckbox" name="KasayaYansıt" value="true" />
+                        <label class="form-check-label">Kasaya Yansıt</label>
+                    </div>
+
+                    <div class="mb-3" id="kasaSecimDiv" style="display: none;">
+                        <label>Kasa Seçimi</label>
+                        <select name="KasaID" id="kasaSelect" class="form-control">
+                            <option value="">Kasa Seçiniz</option>
+                            @foreach (var kasa in ViewBag.Kasalar)
+                            {
+                                <option value="@kasa.KasaID">@kasa.KasaTipAdı - Bakiye: @kasa.Tutar.ToString("C2")</option>
+                            }
+                        </select>
+                    </div>
+
+                    <script>
+                        document.getElementById('kasayaYansitCheckbox').addEventListener('change', function () {
+                            var kasaDiv = document.getElementById('kasaSecimDiv');
+                            var kasaSelect = document.getElementById('kasaSelect');
+
+                            if (this.checked) {
+                                kasaDiv.style.display = 'block';
+                                kasaSelect.setAttribute('required', 'required');
+                            } else {
+                                kasaDiv.style.display = 'none';
+                                kasaSelect.removeAttribute('required');
+                            }
+                        });
+                    </script>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Kaydet</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+
+            <th>TÜR</th>
+            <th>Ödeme Tipi</th>
+            <th>AÇIKLAMA</th>
+            <th>İŞLEM SAHİBİ</th>
+            <th>KASAYA YANSITILDI MI</th>
+            <th>TARİH</th>
+            <th>
+                <button type="button" class="btn btn-primary">
+                    Toplam Tutar = @ViewBag.toplamGider
+                </button>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>@x.GiderID</td>
+
+                <td>@x.GiderAd</td>
+                <td>@x.OdemeAdı</td>
+                <td>@x.EkAcıklama</td>
+                <td>@x.UserAd</td>
+                <td>@x.KasayaYansıt</td>
+                <td>@x.Tarih.ToShortDateString()</td>
+                <td>@x.Tutar ₺</td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="row my-2">
+
+
+    <div class="col">
+        @Html.PagedListPager(Model, page => Url.Action("giderListesi", "Gider", new { page }))
+
+    </div>
+    <div class="col d-flex  justify-content-end">
+        <!-- Gider Ekle Butonu -->
+        <button type="button" class="btn btn-primary  h-50 my-3  " data-bs-toggle="modal" data-bs-target="#giderEkleModal">
+            Gider Ekle
+        </button>
+    </div>
+
+
+</div>

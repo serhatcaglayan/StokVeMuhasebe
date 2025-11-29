@@ -1,0 +1,45 @@
+@model IEnumerable<coreAden.Controllers.MusteriSiparisOzetVM>
+@{
+    ViewBag.Title = "Müşteri Sipariş Özeti";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h3>Müşterinin Sipariş Özeti</h3>
+<p style="color:red ; font-weight:bold" >Sadece Aktif ve Sipariş Aşamasındaki Verileri İçerir. !! Teklifler Listelenmez !! </p>
+<form method="get" class="mb-2">
+    <div class="row g-2">
+        <div class="col">
+            <input type="date" name="baslangic" class="form-control" value="@Request["baslangic"]" />
+        </div>
+        <div class="col">
+            <input type="date" name="bitis" class="form-control" value="@Request["bitis"]" />
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-primary">Filtrele</button>
+            <a class="btn btn-success" href="@Url.Action("ExportMusteriSiparisOzetiCsv", new { baslangic = Request["baslangic"], bitis = Request["bitis"] })">CSV İndir</a>
+        </div>
+    </div>
+</form>
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th>Müşteri</th>
+            <th>Toplam Tutar</th>
+            <th>Liste</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>@x.MusteriAdSoyad</td>
+                <td>@x.ToplamTutar</td>
+                <td>
+                    <a class="btn btn-sm btn-info" href="@Url.Action("MusteriSiparisListesi", "Siparis", new { id = x.MusteriID , SiparisAktifMi = true ,siparisTeklifDurumu=true})">Listele</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
