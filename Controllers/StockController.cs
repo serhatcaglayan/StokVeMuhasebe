@@ -110,6 +110,7 @@ namespace coreAden.Controllers
                     if( flag ) // gider ekleme işlemi başarılıysa stok ekleme işlemi yapılır.
                         _stockService.StokEkle(MalzemeID, miktar, kasayaYansitilsinMi);
                     // Stok sayısı değiştiğinde trigger tetiklenir ve log kaydı oluşur. [dbo].[tr_Malzemeler_Stok_Update_Log]
+                    // git denemesi
                 }
 
             }
