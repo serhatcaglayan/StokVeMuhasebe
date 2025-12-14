@@ -29,6 +29,7 @@
         <EntityTypeShape EntityType="adenModel.TaksitPlan" Width="1.5" PointX="8.5" PointY="2.875" />
         <EntityTypeShape EntityType="adenModel.ViewTaksitler" Width="1.5" PointX="8.5" PointY="5.25" />
         <EntityTypeShape EntityType="adenModel.View_Gelirler" Width="1.5" PointX="0.5" PointY="10.875" />
+        <EntityTypeShape EntityType="adenModel.SiparisLog" Width="1.5" PointX="6" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

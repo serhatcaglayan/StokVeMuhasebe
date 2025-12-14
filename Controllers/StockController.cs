@@ -69,7 +69,7 @@ namespace coreAden.Controllers
                 MalzemeAdı = ad,
                 AlısFiyati = fiyat,
                 StokMiktari = 0,
-                AlısTarihi = null,
+                AlısTarihi = DateTime.Now,
                 EklemeYapanUserID = null
             };
 

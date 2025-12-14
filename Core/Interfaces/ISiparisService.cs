@@ -19,5 +19,7 @@ namespace coreAden.Core.Interfaces
         List<SelectListItem> GetUsers();
         List<SelectListItem> GetOdemeTurleri();
         byte[] ExportSiparislerToExcel(DateTime? baslangic = null, DateTime? bitis = null, string q = null, bool? SprsTklf = null);
+        double toplamSiparisMalzemeTutari(int siparisId);
+        List<ViewSiparisMalzemeleri> SiparisMalzemeListesi(int siparisId);
     }
 }
