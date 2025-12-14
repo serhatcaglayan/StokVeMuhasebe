@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using System.Windows.Media.Animation;
 
 namespace coreAden.Controllers
 {
@@ -15,9 +16,11 @@ namespace coreAden.Controllers
         private readonly ISiparisService _siparisService;
         private readonly IMusteriService _musteriService;
         private readonly ILogService _logService;
-       
+        private readonly IKasaService _kasaService;
+        private readonly ISiparisLogService _siparisLogService;
+        private readonly IGiderService _giderService;
+        private readonly IGelirServicecs _gelirService;
 
-       
 
         public SiparisController()
         {
@@ -26,7 +29,10 @@ namespace coreAden.Controllers
             _logService = new coreAden.Services.LogService(unitOfWork);
             _siparisService = new coreAden.Services.SiparisService(unitOfWork);
             _musteriService = new coreAden.Services.MusteriService(unitOfWork);
-            
+            _kasaService = new coreAden.Services.KasaService(unitOfWork);
+            _siparisLogService = new coreAden.Services.SiparisLogService(unitOfWork);
+            _giderService = new coreAden.Services.GiderService(unitOfWork);
+            _gelirService = new coreAden.Services.GelirlerService(unitOfWork);
 
         }
 
@@ -192,7 +198,15 @@ namespace coreAden.Controllers
         public ActionResult SiparisOnayla (int id)
         {
             var siparis = _siparisService.GetSiparisById(id);
-            if(siparis.SiparisTeklifDurumu == false)
+           
+            if (siparis == null)
+            {
+                TempData["ErrorMessage"] = "Sipariş bulunamadı";
+                return RedirectToAction("Index");
+            }
+
+            // Teklifi Siparişe Dönüştür.
+            if (siparis.SiparisTeklifDurumu == false)
             {
                 siparis.SiparisTeklifDurumu = true;
                 _siparisService.UpdateSiparis(siparis);
@@ -201,10 +215,24 @@ namespace coreAden.Controllers
             else
             {
                 TempData["ErrorMessage"] = "Sipariş Zaten Onaylanmış";
+                return RedirectToAction("Detay", new { id });
             }
 
+            // Sipariş Gelirini kasaya kaydet . Nakit olarak gönder. //Log EKle
+            double gelir = (double)(siparis.Birim * siparis.BirimFiyat);
+            double malzemeTutari = _siparisService.toplamSiparisMalzemeTutari(siparisId:id);
+            var malzemeListesi = _siparisService.SiparisMalzemeListesi(siparisId: id);
+            var musteri_bilgisi = _musteriService.GetMusteriById(siparis.MusteriID);
+            var text = "Sipariş Geliri Kaydedildi. Müşteri : " +  musteri_bilgisi.MusteriAd + " "+musteri_bilgisi.MusteriSoyad + "  ID : " + musteri_bilgisi.MusteriID ;
+            var logtext = $"Kasaya Sipariş Geliri Eklendi. SİparisID : {id}";
+            _kasaService.KasaBakiyeEkle(kasaID:1 ,tutar:gelir , aciklama:logtext , userID:1);
+            _siparisLogService.AddSiparisLog(islemTurId:3 ,userId:1,kasaID:1,siparisID:id,malzemeTutari:malzemeTutari,siparisTutari:gelir ,aciklama:text);
+
+            // Gelir tablosuna ekleme
             
-            return RedirectToAction("Detay" , new { id });
+            
+
+            return RedirectToAction("Detay", new { id });
         }
 
         public ActionResult SiparisKapat (int id)

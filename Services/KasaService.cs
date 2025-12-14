@@ -11,10 +11,12 @@ namespace coreAden.Services
     public class KasaService : IKasaService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogService _logService;
 
         public KasaService(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
+            _logService = new LogService(_unitOfWork);
         }
 
         public PagedList<ViewKasaBilgisi> GetKasalarView(int page, int pageSize)
@@ -47,7 +49,7 @@ namespace coreAden.Services
                       
         }
 
-        public void KasaBakiyeEkle(int kasaID, double tutar)
+        public void KasaBakiyeEkle(int kasaID, double tutar ,string aciklama ,int ?userID = null)
         {
             var repository = _unitOfWork.Repository<Kasa>();
             var kasa = repository.GetById(kasaID);
@@ -55,8 +57,10 @@ namespace coreAden.Services
             kasa.Tutar += tutar;
            
                 repository.Update(kasa);
-                _unitOfWork.SaveChanges();         
-           
+                _unitOfWork.SaveChanges();
+
+            aciklama = aciklama + " KasaID : " + kasaID;
+            _logService.AddLog(islemTurId: 18, aciklama: aciklama, userId: userID);
         }
 
         public void Transfer(int AlıcıID, int VericiID, double tutar)

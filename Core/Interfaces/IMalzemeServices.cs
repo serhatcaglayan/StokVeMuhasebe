@@ -9,5 +9,6 @@ namespace coreAden.Core.Interfaces
     internal interface IMalzemeServices
     {
          string getMalzemeNameWithMalzemeID(int id);
+
     }
 }

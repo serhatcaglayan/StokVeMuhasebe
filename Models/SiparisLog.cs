@@ -12,15 +12,16 @@ namespace coreAden.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Giderler
+    public partial class SiparisLog
     {
-        public int GiderID { get; set; }
-        public Nullable<double> Tutar { get; set; }
-        public Nullable<int> GiderTurID { get; set; }
-        public Nullable<int> OdemeTurID { get; set; }
-        public Nullable<int> EklemeYapanUserID { get; set; }
-        public System.DateTime Tarih { get; set; }
-        public string EkAcıklama { get; set; }
-        public bool KasayaYansıt { get; set; }
+        public int SiparisLogID { get; set; }
+        public Nullable<int> LogIslemTurID { get; set; }
+        public Nullable<int> SiparisID { get; set; }
+        public Nullable<int> UserID { get; set; }
+        public Nullable<int> KasaID { get; set; }
+        public string Acıklama { get; set; }
+        public Nullable<System.DateTime> Tarih { get; set; }
+        public Nullable<double> SiparisTutari { get; set; }
+        public Nullable<double> MalzemeTutari { get; set; }
     }
 }

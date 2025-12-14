@@ -1,0 +1,67 @@
+﻿
+@model PagedList.IPagedList<coreAden.Models.SiparisLog>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "SiparisLogListesi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>SiparisLogListesi</h2>
+
+<!-- Flitreleme -->
+
+<form method="get" class="mb-2">
+    <div class="row g-2">
+        <div class="col">
+            <input type="date" name="baslangic" class="form-control" value="@Request["baslangic"]" />
+        </div>
+        <div class="col">
+            <input type="date" name="bitis" class="form-control" value="@Request["bitis"]" />
+        </div>
+      <div class="col">
+          <input type="number" name="siparisID" class="form-control" value="@Request["siparisID"]"/>
+      </div>
+
+
+        <div class="col-auto">
+            <button class="btn btn-primary">Filtrele</button>
+            <a class="btn btn-success" href="@Url.Action("", new { baslangic = Request["baslangic"], bitis = Request["bitis"] , siparisID = Request["siparisID"] })">CSV İndir</a>
+        </div>
+    </div>
+</form>
+
+<table>
+    <thead>
+        <tr>
+            <th>Siparis ID</th>
+            <th>Acıklama</th>
+            <th>Sipariş Tutarı</th>
+            <th>Malzeme Tutari</th>
+            <th>Tarih</th>
+            <th>UserID</th>                      
+            <th>Detay</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var x in Model)
+        {
+            <tr>
+                <td>@x.SiparisID</td>
+                <td>@x.Acıklama</td>
+                <td>@x.SiparisTutari ₺</td>
+                <td>@x.MalzemeTutari ₺</td>
+                <td>@x.Tarih</td>
+                <td>@x.UserID </td>              
+                       
+                <td>
+                    <a class="btn btn-info btn-sm" href="@Url.Action("Detay", "Siparis", new { id = x.SiparisID })">Git</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("SiparisLogListesi", "SiparisLog", new { page }))
+
+</div>

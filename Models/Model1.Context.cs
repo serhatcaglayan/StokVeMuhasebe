@@ -49,5 +49,6 @@ namespace coreAden.Models
         public virtual DbSet<TaksitPlan> TaksitPlan { get; set; }
         public virtual DbSet<ViewTaksitler> ViewTaksitler { get; set; }
         public virtual DbSet<View_Gelirler> View_Gelirler { get; set; }
+        public virtual DbSet<SiparisLog> SiparisLog { get; set; }
     }
 }

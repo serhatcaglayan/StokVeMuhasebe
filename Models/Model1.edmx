@@ -135,6 +135,20 @@
           <Property Name="GuncellemeYapanUserID" Type="int" Nullable="false" />
           <Property Name="SiparisAktifMi" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="SiparisLog">
+          <Key>
+            <PropertyRef Name="SiparisLogID" />
+          </Key>
+          <Property Name="SiparisLogID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LogIslemTurID" Type="int" />
+          <Property Name="SiparisID" Type="int" />
+          <Property Name="UserID" Type="int" />
+          <Property Name="KasaID" Type="int" />
+          <Property Name="Acıklama" Type="varchar" MaxLength="200" />
+          <Property Name="Tarih" Type="datetime" />
+          <Property Name="SiparisTutari" Type="float" />
+          <Property Name="MalzemeTutari" Type="float" />
+        </EntityType>
         <EntityType Name="SiparisMalzemeler">
           <Key>
             <PropertyRef Name="SiparisMalzemeID" />
@@ -342,6 +356,7 @@ warning 6002: The table/view 'aden.dbo.ViewTaksitler' does not have a primary ke
           <EntitySet Name="Odemeler" EntityType="Self.Odemeler" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="OdemeTur" EntityType="Self.OdemeTur" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Siparisler" EntityType="Self.Siparisler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiparisLog" EntityType="Self.SiparisLog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SiparisMalzemeler" EntityType="Self.SiparisMalzemeler" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Taksit" EntityType="Self.Taksit" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TaksitPlan" EntityType="Self.TaksitPlan" Schema="dbo" store:Type="Tables" />
@@ -686,6 +701,7 @@ warning 6002: The table/view 'aden.dbo.ViewTaksitler' does not have a primary ke
           <EntitySet Name="TaksitPlan" EntityType="adenModel.TaksitPlan" />
           <EntitySet Name="ViewTaksitler" EntityType="adenModel.ViewTaksitler" />
           <EntitySet Name="View_Gelirler" EntityType="adenModel.View_Gelirler" />
+          <EntitySet Name="SiparisLog" EntityType="adenModel.SiparisLog" />
         </EntityContainer>
         <EntityType Name="ViewLog">
           <Key>
@@ -789,6 +805,20 @@ warning 6002: The table/view 'aden.dbo.ViewTaksitler' does not have a primary ke
           <Property Name="KasayaYansit" Type="Boolean" />
           <Property Name="OdemeAdı" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="SiparisLog">
+          <Key>
+            <PropertyRef Name="SiparisLogID" />
+          </Key>
+          <Property Name="SiparisLogID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LogIslemTurID" Type="Int32" />
+          <Property Name="SiparisID" Type="Int32" />
+          <Property Name="UserID" Type="Int32" />
+          <Property Name="KasaID" Type="Int32" />
+          <Property Name="Acıklama" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Tarih" Type="DateTime" Precision="3" />
+          <Property Name="SiparisTutari" Type="Double" />
+          <Property Name="MalzemeTutari" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1105,6 +1135,21 @@ warning 6002: The table/view 'aden.dbo.ViewTaksitler' does not have a primary ke
                 <ScalarProperty Name="OdemeTurID" ColumnName="OdemeTurID" />
                 <ScalarProperty Name="Tutar" ColumnName="Tutar" />
                 <ScalarProperty Name="GelirID" ColumnName="GelirID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SiparisLog">
+            <EntityTypeMapping TypeName="adenModel.SiparisLog">
+              <MappingFragment StoreEntitySet="SiparisLog">
+                <ScalarProperty Name="MalzemeTutari" ColumnName="MalzemeTutari" />
+                <ScalarProperty Name="SiparisTutari" ColumnName="SiparisTutari" />
+                <ScalarProperty Name="Tarih" ColumnName="Tarih" />
+                <ScalarProperty Name="Acıklama" ColumnName="Acıklama" />
+                <ScalarProperty Name="KasaID" ColumnName="KasaID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="SiparisID" ColumnName="SiparisID" />
+                <ScalarProperty Name="LogIslemTurID" ColumnName="LogIslemTurID" />
+                <ScalarProperty Name="SiparisLogID" ColumnName="SiparisLogID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

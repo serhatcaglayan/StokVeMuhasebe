@@ -11,7 +11,7 @@ namespace coreAden.Core.Interfaces
 
         
         void KasaBakiyeDus(int kasaId, double tutar);
-        void KasaBakiyeEkle(int kasaID, double tutar);
+        void KasaBakiyeEkle(int kasaID, double tutar, string aciklama , int? userID = null);
         Kasa getKasaByID(int id);
         void Transfer(int AlýcýID, int VericiID, double tutar);
     }

@@ -239,5 +239,18 @@ namespace coreAden.Services
             }
         }
 
+        public double toplamSiparisMalzemeTutari(int siparisId)
+        {       
+            var malzemeListesi = SiparisMalzemeListesi(siparisId);
+            double tutar = (double)malzemeListesi.Sum(x => x.AlısFiyati * x.Birim); 
+           return tutar;
+        }
+
+        public List<ViewSiparisMalzemeleri> SiparisMalzemeListesi(int siparisId)
+        {
+            var repository = _unitOfWork.Repository<ViewSiparisMalzemeleri>();
+            var malzemeListesi = repository.Find(x => x.SiparisID == siparisId).ToList();
+            return malzemeListesi;
+        }
     }
 }
